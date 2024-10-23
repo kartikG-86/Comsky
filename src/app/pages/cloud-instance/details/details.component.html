@@ -42,7 +42,7 @@
         <div class="d-flex flex-row">
             <div class="text-bolder mx-2">ipv4:</div>
 
-            <div class="text-bold para px-2" (mouseenter)="showCopyIcon('ipv4')" (mouseleave)="showCopyIcon('ipv4')">
+            <div class="text-bold para px-2" (mouseenter)="showCopyIcon('ipv4')" (mouseleave)="showCopyIcon(null)">
                 <span class="pointer" *ngIf="instanceDetails?.specifications?.ipv4 else default">
                     {{instanceDetails?.specifications?.ipv4}}
 
@@ -68,7 +68,7 @@
         </div>
         <div class="d-flex flex-row">
             <div class="text-bolder mx-2">ipv6:</div>
-            <div class="text-bold para" (mouseenter)="showCopyIcon('ipv6')" (mouseleave)="showCopyIcon('ipv6')">
+            <div class="text-bold para" (mouseenter)="showCopyIcon('ipv6')" (mouseleave)="showCopyIcon(null)">
                 <span class="pointer" *ngIf="instanceDetails?.specifications?.ipv6 else default">
                     {{instanceDetails?.specifications?.ipv6}}
 
@@ -93,8 +93,7 @@
         </div>
         <div class="d-flex flex-row">
             <div class="text-bolder mx-2">Private IP:</div>
-            <div class="text-bold para" (mouseenter)="showCopyIcon('privateIP')"
-                (mouseleave)="showCopyIcon('privateIP')">
+            <div class="text-bold para" (mouseenter)="showCopyIcon('privateIP')" (mouseleave)="showCopyIcon(null)">
                 <span class="pointer" *ngIf="instanceDetails?.specifications?.privateIP else default">
                     {{instanceDetails?.specifications?.privateIP}}
                     <span class="position-relative">
@@ -118,8 +117,7 @@
         </div>
         <div class="d-flex flex-row">
             <div class="text-bolder mx-2">Reserved IP:</div>
-            <div class="text-bold para" (mouseenter)="showCopyIcon('reservedIP')"
-                (mouseleave)="showCopyIcon('reservedIP')">
+            <div class="text-bold para" (mouseenter)="showCopyIcon('reservedIP')" (mouseleave)="showCopyIcon(null)">
                 <span class="pointer" *ngIf="instanceDetails?.specifications?.reservedIP else default">
                     {{instanceDetails?.specifications?.reservedIP}}
                     <span class="position-relative">

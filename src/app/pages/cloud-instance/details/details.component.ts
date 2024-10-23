@@ -58,7 +58,7 @@ export class DetailsComponent {
   }
 
   showCopyIcon(copyIconTitle: any) {
-    if (this.isShowCopyIcon && this.copyIconTitle == copyIconTitle) {
+    if ((this.isShowCopyIcon && this.copyIconTitle == copyIconTitle) || copyIconTitle == null) {
       this.isShowCopyIcon = false
       this.copyIconTitle = null
     }
