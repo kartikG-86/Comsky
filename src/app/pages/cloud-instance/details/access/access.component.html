@@ -1,0 +1,80 @@
+<section class="w-100">
+    <div class="card-section p-4">
+        <div class="d-flex flex-row justify-content-between align-items-center">
+            <div class="fs-4 text-bold">
+                Instance Console
+            </div>
+            <div class="learn-button pointer">
+                <span>Learn</span> <i class="bi bi-arrow-right-circle ms-2"></i>
+            </div>
+        </div>
+
+        <div class="para my-3 ">
+            Access your instance through the Instance Console for a terminal experience similar to native systems
+            directly from your browser. Below is the list of compatible operating systems for the new console.
+        </div>
+        <form [formGroup]="accessForm">
+            <div class="my-3 d-flex flex-row">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control shadow-none" id="floatingInput" placeholder="Log in as"
+                        formControlName="name">
+                    <label for="floatingInput" class="text-bold">Log in as</label>
+                </div>
+                <div class="ms-3">
+                    <button class="btn-primary btn1 px-3" (click)="launchConsole()">Launch Instance Console</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="card-section p-4 my-4">
+        <div class="d-flex flex-row justify-content-between align-items-center">
+            <div class="fs-4 text-bold">
+                Recovery Console
+
+            </div>
+
+        </div>
+
+        <div class="para my-3 ">
+            Utilize the Recovery Console if you need to access the recovery ISO or if you're unable to connect to your
+            instance via the Instance Console. To access the Recovery Console, password authentication must be enabled.
+            If needed, you can reset your root password below.
+        </div>
+        <form [formGroup]="accessForm">
+            <div class="my-3 d-flex flex-row">
+                <div>
+                    <button class="btn-secondary btn1 px-3 text-bold" (click)="launchRecoveryConsole()">Launch Recovery
+                        Console</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="card-section p-4 my-4">
+        <div class="d-flex flex-row justify-content-between align-items-center">
+            <div class="fs-4 text-bold">
+                Reset root password
+            </div>
+
+        </div>
+
+        <div class="para my-3 ">
+            Clicking "Reset Root Password" below will promptly power down your instance and assign a new root password.
+        </div>
+        <div class="para ">
+            You will receive the new root password via email within a few minutes. If the email doesn't come through or
+            the new password fails to work, consider using the <span class="text-primary pointer"> recovery
+                environment</span>.
+        </div>
+        <div class="para my-3">
+            Do you wish to proceed?
+        </div>
+        <form [formGroup]="accessForm">
+            <div class="my-3 d-flex flex-row">
+                <div>
+                    <button class="btn-secondary btn1 px-3 text-bold" (click)="resetRootPassword()">Reset Root
+                        Password</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>

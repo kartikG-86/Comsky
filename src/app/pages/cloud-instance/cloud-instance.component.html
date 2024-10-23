@@ -1,0 +1,160 @@
+<section class="section">
+
+    <ng-container *ngIf="userInstances?.length == 0 else default">
+        <section class="main-section d-flex flex-row justify-content-between p-5">
+
+            <div class="text-section">
+                <h1 class="text-bolder">Cloud Instances in minutes</h1>
+
+                <div class="text-bolder my-3">Cloud instances are Linux-based virtual machines (VMs) that operate on
+                    virtualized
+                    hardware.
+                    Each cloud instance you create functions as a new server that can be used independently or as part
+                    of a
+                    larger,
+                    cloud-based infrastructure.</div>
+
+            </div>
+
+            <div class="card-box pt-4 pb-2 px-3 fs-5">
+                <div class="text-bolder text-center">Starting at {{500 | currency:"INR"}}/ month</div>
+
+                <div class="my-4">
+                    <ul>
+                        <li class="my-3 text-bold " *ngFor="let offer of offerPoints"> <i
+                                class="bi bi-check2 text-primary me-3 fs-6"></i>{{offer}}
+                        </li>
+                    </ul>
+
+                    <div class="mt-4 w-100">
+                        <button class="btn btn-primary w-100 text-bold " routerLink="/cloud-instance/checkout">Create
+                            Droplet</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="p-5">
+            <div class="fs-4 text-bolder">Virtual Machines anyone can setup in seconds!</div>
+
+            <div class="row row-cols-lg-3 row-cols-md-2 row-cols-1 g-3 mt-4">
+                <div class="col" *ngFor="let benefit of benefits">
+                    <div class="mx-3 d-flex flex-row align-items-start">
+                        <div class="text-bolderme-3">
+                            <img [src]="benefit?.icon" class="me-3 img-icon" />
+                        </div>
+                        <div>
+                            <div class="text-bolder">
+                                {{benefit?.title}}
+                            </div>
+                            <div class="text-bold para mt-2">{{benefit?.description}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="my-5">
+                <div class="form-heading">Learn more about Instances</div>
+                <div class="my-3 row row-cols-lg-3 row-cols-md-2 row-cols-1">
+                    <div class="col" *ngFor="let doc of docs_info">
+                        <div class="card h-100 d-flex flex-column pointer" [routerLink]="doc?.link">
+                            <div class="card-body">
+                                <div class="card-title text-bolder">{{doc?.title | uppercase }}</div>
+                                <div class="my-2 text-primary text-bold">{{doc?.subTitle}}</div>
+                                <div class="my-2 card-text para text-bold">{{doc?.description}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </ng-container>
+
+    <ng-template #default>
+        <section class="p-5">
+            <div class="fs-2 text-bolder">Cloud Instances</div>
+
+            <div class="d-flex flex-row justify-content-between align-items-center my-4">
+                <div>
+                    <input type="text" class="form-control search-text shadow-none"
+                        placeholder="Search by Instance name">
+                </div>
+
+                <div class="btns">
+                    <button class="btn btn-primary text-bolder border-2 px-3">Create Droplet</button>
+                </div>
+            </div>
+
+            <div class="my-3">
+                <table class="table table-responsive">
+                    <thead>
+                        <tr>
+                            <th *ngFor="let row of table_rows">{{row}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container>
+                            <ng-container *ngFor="let data of tableData">
+                                <tr class="border-bottom">
+                                    <td class="d-flex flex-row align-items-center border-0 pointer"
+                                        routerLink="/cloud-instance/details/graphs">
+                                        <img [src]="data?.image" class="table-img-icon" />
+
+                                        <div class="d-flex flex-column justify-content-start align-items-start ms-3">
+                                            <a href="/cloud-instance"> {{data?.name}} </a>
+
+                                            <span class="text-bold para mt-1">
+                                                <small> {{data?.specifications?.memory}} /
+                                                    {{data?.specifications?.disk}} / {{data?.specifications?.region}} -
+                                                    {{data?.specifications?.os}}
+                                                </small>
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td class="text-bold py-4 border-0">
+                                        <span *ngIf="data?.ipAddress">
+                                            {{data?.ipAddress}}
+                                            <i matTooltip="Copy" matTooltipPosition="above"
+                                                [ngClass]="isIPCopy ? 'bi-check2 text-success' : 'bi-copy'"
+                                                class=" ms-2  bi bold-icon pointer"
+                                                (click)="copyIP(data?.ipAddress)"></i>
+                                        </span>
+                                    </td>
+                                    <td class="text-bold py-4 border-0">
+                                        {{data?.created}} days ago
+                                    </td>
+                                    <td class="text-bold py-4 border-0"></td>
+
+                                    <td class="py-4">
+                                        <div class="d-flex flex-row align-items-center">
+                                            <img [src]="  isBackupEnabled ? 'images/backup-active.png' : 'images/backup-deactive.png'"
+                                                class="backup-icon pointer"
+                                                [matTooltip]="isBackupEnabled ? 'Backups are enabled. Click to view' : 'Backups are not enabled for this instance. Click to view'"
+                                                matTooltipPosition="above" />
+                                            <button
+                                                class="upsize-btn btn btn-outline-primary ms-3 p-0 border-2 text-bold">Upsize</button>
+                                        </div>
+                                    </td>
+                                    <td class=" py-4">
+                                        <div class="dropdown-center">
+                                            <button class="text-primary action-btn text-bolder" type="button"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                More <i class="bi bi-chevron-down  ms-1   pointer"></i>
+                                            </button>
+                                            <ul class="dropdown-menu p-0">
+                                                <li class="text-bold p-2 pointer text-center"
+                                                    *ngFor="let option of actionBtnsInfo" [ngClass]="option?.class">
+                                                    {{option.title}}</li>
+                                            </ul>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </ng-template>
+</section>

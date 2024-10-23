@@ -1,0 +1,25 @@
+<div class="common-modal p-4">
+    <div class="d-flex flex-row justify-content-between align-items-center">
+        <div class="fs-4 text-bold">Manage Tags</div>
+        <div><i class="bi bi-x fs-3 bold-icon pointer" (click)="closeModal()"></i></div>
+    </div>
+
+    <div class="my-3 text-bold para">
+        Tags may contain letters, numbers, colons, dashes, and underscores.
+    </div>
+    <form [formGroup]="tagForm">
+        <div class="my-3">
+            <input (keypress)="addTag($event)" type="text" class="form-control shadow-none"
+                placeholder="Type Tags here..." formControlName="tag" />
+        </div>
+    </form>
+
+    <div class="d-flex flex-row">
+        <div class="mx-1 tag p-2 pointer position-relative" *ngFor="let tag of userTags"
+            (mouseenter)="activeDeleteBtn(tag)" (mouseleave)="activeDeleteBtn(tag)">
+            {{tag}}
+            <i (click)="deleteTag()" class="bi bi-x-circle bold-icon text-danger position-absolute"
+                [ngClass]="deleteTagTitle == tag ? 'opacity-1' : 'opacity-0'"></i>
+        </div>
+    </div>
+</div>

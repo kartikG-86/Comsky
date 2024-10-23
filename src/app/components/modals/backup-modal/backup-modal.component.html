@@ -1,0 +1,82 @@
+<div class="common-modal p-4">
+    <div class="d-flex flex-row justify-content-between align-items-center">
+        <div class="fs-4 text-bold">{{heading}}</div>
+        <div><i class="bi bi-x fs-3 bold-icon pointer" (click)="closeModal()"></i></div>
+    </div>
+
+    <form [formGroup]="backupForm">
+        <div class="my-3">
+            <div class="text-bolder sub-heading">Select the Droplet to enable backups</div>
+            <app-dropdown width="30rem" [dropdownData]="formData"
+                (selectedOption)="selectedOption($event)"></app-dropdown>
+        </div>
+
+        <div class="my-4">
+            <div class="text-bolder sub-heading">Backup Plan</div>
+            <div class="col my-3" *ngFor="let backupPlan of displayedPlans">
+                <label class="radio-card card h-100 d-flex flex-column h-100 d-flex flex-column">
+                    <input class="radio" type="radio" formControlName="plan" [value]="backupPlan">
+                    <span class="radio-details ">
+                        <div class="form-check-label d-flex flex-column justify-content-start align-items-start"
+                            for="flexRadioDefault1">
+                            <div class="card-body w-100 mt-4">
+                                <div class="d-flex flex-row w-100">
+                                    <div>
+                                        <img class="img-icon" [src]="backupPlan?.image" />
+                                    </div>
+                                    <div class="d-flex flex-row justify-content-between ms-3 w-100">
+                                        <div class="d-flex flex-column align-items-start">
+                                            <div class="text-bolder">{{backupPlan?.title}}</div>
+                                            <div class="text-bold para mt-1">{{backupPlan?.description}}</div>
+                                        </div>
+                                        <div class="d-flex flex-column  align-items-end">
+                                            <div class="text-bolder">{{backupPlan?.pricePerMonth | currency:"INR"}}
+                                            </div>
+                                            <div class="text-bold para mt-1">{{backupPlan?.discount}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </span>
+                </label>
+            </div>
+        </div>
+
+        <div class="my-4" *ngIf="selectedVM">
+            <div class="text-bolder sub-heading">Backup Window</div>
+            <div class="mt-2">Backups will be <b> initiated</b>, but may not complete during the 4 hours window</div>
+        </div>
+
+        <ng-container *ngIf="selectedVM">
+            <div class="row row-cols-1" [ngClass]="selectedPlan.title.includes('Daily') ? '' : 'row-cols-md-2'">
+                <div class="col" *ngIf="selectedPlan.title.includes('Weekly')">
+                    <div class="sub-heading text-bolder">Day of the week</div>
+                    <select class="form-select mt-2" formControlName="day">
+                        <option [value]="day" *ngFor="let day of daysOfWeek">{{day}}</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <div class="sub-heading text-bolder">Time of day </div>
+                    <select class="form-select mt-2" formControlName="time">
+                        <option [value]="time" *ngFor="let time of timeSlots">{{time}}</option>
+                    </select>
+                </div>
+            </div>
+        </ng-container>
+
+        <div class="mt-5 row row-cols-md-2 row-cols-1">
+            <div class="col">
+                <button class="btn cancel-btn text-bold w-100 p-2" (click)="closeModal()">Cancel</button>
+            </div>
+
+            <div class="col">
+                <button class="btn btn-primary p-2 w-100 text-bold" [disabled]="this.backupForm.invalid"
+                    (click)="activateBackup()">Enable
+                    Backups</button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

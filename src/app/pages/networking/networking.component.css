@@ -1,0 +1,45 @@
+.checkout-section {
+    width: 100%;
+    padding: 5rem 5rem;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.networklinks {
+    list-style: none;
+    padding: 0px;
+    border-bottom: 2px solid rgb(241, 241, 241);
+    margin: 0px;
+}
+
+.heading {
+    font-size: 2.4rem;
+}
+
+.links {
+    display: inline-block;
+    height: 50px;
+    line-height: 48px;
+    margin: 0px 22px -2px 0px;
+}
+
+.link {
+    display: block;
+    border-bottom: none;
+    color: #999999;
+    font-weight: 600;
+}
+
+.links:hover:not(.active-link) {
+    border-bottom: 2px solid #999;
+}
+
+.links>.link:hover {
+    color: #676767 !important;
+    font-weight: 600;
+}
+
+.active-link {
+    color: rgb(3, 27, 78);
+    border-bottom: 2px solid rgb(51, 135, 255);
+}

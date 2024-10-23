@@ -1,0 +1,66 @@
+<section class="w-100">
+    <div class="card-section p-4">
+        <div class="d-flex flex-row justify-content-between align-items-center">
+            <div class="fs-4 text-bold">
+                Turn off Droplet
+            </div>
+
+        </div>
+
+        <div class="para my-3 ">
+            When you disable an instance from the control panel, we first attempt a graceful shutdown. If that doesn't
+            succeed, a forced shutdown is executed, which could potentially lead to data corruption. To maintain data
+            integrity, we advise shutting down using the command line with the <code>poweroff</code> command.
+        </div>
+
+        <div class="my-3 text-bold para">
+            When a Droplet is off:
+
+            <ul class="px-4 my-3">
+                <li class="my-2">Its data and IP address are retained and its disk, CPU and RAM are reserved.
+                </li>
+                <li>You continue to accrue its data transfer allowance.
+                </li>
+            </ul>
+        </div>
+
+        <div class="my-3 text-bold">
+            <i class="bi bi-exclamation-triangle-fill me-2 text-danger fs-5"></i>
+            <b>Warning:</b>
+            <span class="para ms-2">Even if an instance is turned off, you will still be charged. To halt the billing,
+                you
+                need to destroy the instance instead.</span>
+        </div>
+
+        <div class="my-3 d-flex flex-row">
+            <div>
+                <button class="btn-secondary btn1 px-3 text-bold" (click)="turnOffInstance()">Turn off</button>
+            </div>
+        </div>
+
+    </div>
+    <div class="card-section p-4 my-4">
+        <div class="d-flex flex-row justify-content-between align-items-center">
+            <div class="fs-4 text-bold">
+                Power cycle
+            </div>
+
+        </div>
+
+        <div class="para my-3 ">
+            A power cycle will instantly perform a hard reset of the server. This option should only be selected if
+            you're unable to reboot the instance from the command line.
+        </div>
+
+        <div class="my-3 text-bold para">
+            Do you wish to proceed?
+        </div>
+
+        <div class="my-3 d-flex flex-row">
+            <div>
+                <button class="btn-secondary btn1 px-3 text-bold" (click)="hardResetInstace()">Power Cycle</button>
+            </div>
+        </div>
+
+    </div>
+</section>

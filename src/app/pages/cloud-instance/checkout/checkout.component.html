@@ -1,0 +1,311 @@
+<section class="checkout-section">
+    <div class="d-flex flex-row justify-content-between align-items-center">
+        <div class="heading">
+            Create Cloud Instance
+        </div>
+        <div class="learn-button pointer">
+            <span>Learn</span> <i class="bi bi-arrow-right-circle ms-2"></i>
+        </div>
+    </div>
+    <h5 class="para my-3">Cloud Instance are virtual machines that can be deployed within seconds, allowing you to use
+        them
+        independently or integrate them into a broader cloud infrastructure.
+    </h5>
+
+    <form class="form" [formGroup]="cloudInstanceForm">
+        <div class="input-group d-flex flex-column mt-4">
+            <div class="form-heading mb-3">Choose Region</div>
+            <div class="row row-cols-xxl-3 row-cols-lg-2 row-cols-1 g-3">
+                <ng-container *ngFor="let dataCenter of dataCentersRegion">
+                    <div class="col" *ngFor="let location of dataCenter?.locations">
+                        <label class="radio-card card h-100 d-flex flex-column">
+                            <input class="radio" type="radio" formControlName="region" [value]="location?.region">
+                            <span class="radio-details">
+                                <div class="form-check-label d-flex flex-row" for="flexRadioDefault1">
+                                    <img [src]="location?.image" class="me-3 flag-icon" />
+                                    <span class="text-bold">{{location.region}}</span>
+                                </div>
+                            </span>
+                        </label>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+
+        <div class="input-group d-flex flex-column mt-5">
+            <div class="form-heading mb-3">Datacenter</div>
+            <div class="dropdown">
+                <button class="btn dropdown-btn d-flex flex-row justify-content-between align-items-center"
+                    type="button" [attr.data-bs-toggle]="defaultDataCenterRegion?.dataCenters.length > 1 ? 'dropdown' : ''"
+                    aria-expanded="false">
+                    <span>
+                        {{defaultDataCenterRegion?.region}} . {{selectedDataCenter?.dataCenter}} .
+                        {{selectedDataCenter?.code}}
+                    </span>
+                    <i class="bi bi-caret-down-fill"
+                        [ngClass]="defaultDataCenterRegion?.dataCenters.length > 1 ? 'd-flex' : 'd-none'"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li *ngFor="let dataCenter of defaultDataCenterRegion.dataCenters" class="py-2 text-center "
+                        (click)="changeDataCenter(dataCenter)"> {{defaultDataCenterRegion?.region}} .
+                        {{selectedDataCenter?.dataCenter}} . {{selectedDataCenter?.code}}</li>
+                </ul>
+            </div>
+
+            <div class="mt-4 w-100">
+                <div class="d-flex flex-row" [ngClass]="this.selectedDataCenter == '' ? 'd-block' : 'd-none'"
+                    style="height: 3rem;">
+                    <div class="spinner-border text-primary" role="status">
+                    </div>
+                    <span class="ms-3 text-bold">Loading...</span>
+                </div>
+                <div [ngClass]="this.selectedDataCenter != '' ? 'd-block' : 'd-none'" class="w-100">
+                    <div>
+                        VPC Network - <b>default-{{this.selectedDataCenter.code | lowercase}}</b> <span
+                            class="default ms-4">DEFAULT</span>
+                    </div>
+                    <div class="para my-2">{{this.selectedDataCenter.defaultMessage}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="input-group d-flex flex-column mt-4">
+            <div class="form-heading mb-3">Choose an image</div>
+            <div class="para ms-3">Operating System</div>
+            <div class="row row-cols-xxl-6 row-cols-lg-3 row-cols-md-2 row-cols-1 g-3 my-1">
+                <div class="col" *ngFor="let os of operatingSystems">
+                    <label class="radio-card card h-100 d-flex flex-column">
+                        <input class="radio" type="radio" formControlName="os" [value]="os.title">
+                        <span class="radio-details">
+                            <div class="form-check-label d-flex flex-column justify-content-center align-items-center"
+                                for="flexRadioDefault1">
+                                <img [src]="os?.image" class="me-3 os-icon" />
+                                <span class="mt-1 text-bold">{{os.title}}</span>
+                            </div>
+                        </span>
+                    </label>
+                </div>
+                <div class="mt-3 para w-100" *ngIf="defaultOS?.defaultMessage">
+                    <i class="bi bi-info-circle"></i>
+                    <span class="ms-2"> {{defaultOS?.defaultMessage}}</span>
+                </div>
+            </div>
+            <div class="para my-3 ms-3">Version</div>
+            <div class="dropdown ms-3">
+                <button class="btn dropdown-btn d-flex flex-row justify-content-between align-items-center"
+                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span>
+                        {{selectedVersion}}
+                    </span>
+                    <i class="bi bi-caret-down-fill"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li (click)="changeVersion(version)" *ngFor="let version of defaultOS.versions"
+                        class="py-2 text-center ">{{version}}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="input-group d-flex flex-column mt-4">
+            <div class="form-heading mb-3">Choose Size</div>
+            <div class="para ms-3">Cloud Instance Type</div>
+            <div class="row row-cols-xxl-5 row-cols-lg-3 row-cols-md-2 row-cols-1 g-3 my-1">
+                <div class="col" *ngFor="let instance of instanceTypes">
+                    <label class="radio-card card h-100 d-flex flex-column">
+                        <input class="radio" type="radio" formControlName="instanceType" [value]="instance.title">
+                        <span class="radio-details">
+                            <div class="form-check-label d-flex flex-column justify-content-center align-items-center"
+                                for="flexRadioDefault1">
+                                <span class="text-bold">{{instance.title}}</span>
+                                <span class="text-bold para mt-2">({{instance.title == 'Basic' ? 'Shared' :
+                                    'Dedicated'}})</span>
+                            </div>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="para text-bold my-2 ms-3">{{defaultInstance.description}}</div>
+            <div class="text-bolder mt-3 ms-3 ">CPU Options</div>
+            <div class="row  row-cols-lg-2 row-cols-1 g-3 my-1"
+                [ngClass]="defaultInstance?.cpuOptions?.length >= 3 ? 'row-cols-xxl-3' : 'row-cols-xxl-2'">
+                <div class="col" *ngFor="let cpuOption of defaultInstance?.cpuOptions">
+                    <label class="radio-card card h-100 d-flex flex-column">
+                        <input class="radio" type="radio" formControlName="cpuType" [value]="cpuOption">
+                        <span class="radio-details">
+                            <div class="form-check-label d-flex flex-column justify-content-start align-items-start"
+                                for="flexRadioDefault1">
+
+                                <span class="text-bolder fs-6">
+                                    {{cpuOption.title}}
+                                </span>
+                                <div class="my-2 d-flex flex-row justify-content-between align-items-center w-100">
+                                    <div class="mt-2">
+                                        <div>
+                                            <span class="text-bold">Disk Type:</span>
+                                            <span class="para ms-2"
+                                                [ngClass]="cpuOption?.diskToolTipMessage ? 'text-primary' : ''"
+                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                [attr.data-bs-title]="cpuOption?.diskToolTipMessage">{{cpuOption?.diskType}}</span>
+                                        </div>
+                                        <div *ngIf="cpuOption?.networkType">
+                                            <span class="text-bold">Network:</span>
+                                            <span class="para ms-2"
+                                                [ngClass]="cpuOption?.networkToolTipMessage ? 'text-primary' : ''"
+                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                [attr.data-bs-title]="cpuOption?.networkToolTipMessage">{{cpuOption?.networkType}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-row justify-content-end">
+                                        <div class="new-btn text-bold px-2 py-1" *ngIf="cpuOption?.isNew">NEW</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </span>
+                    </label>
+                </div>
+
+            </div>
+
+
+            <div class="cpu-plans">
+                <div class="row row-cols-xxl-5 row-cols-lg-3 row-cols-md-2 row-cols-1">
+                    <div class="col my-3" *ngFor="let plan of defaultCPU?.plans">
+                        <label class="radio-card card h-100 d-flex flex-column h-100 d-flex flex-column">
+                            <input class="radio" type="radio" formControlName="plan" [value]="plan">
+                            <span class="radio-details ">
+                                <div class="form-check-label d-flex flex-column justify-content-start align-items-start"
+                                    for="flexRadioDefault1">
+                                    <div class="card-body w-100" style="margin: 1rem 0 0 0;">
+                                        <div class="border-bottom pb-1">
+                                            <div class="text-bold fs-5 text-center">{{plan?.pricePerMonthINR | currency
+                                                : "INR"}} /month</div>
+                                            <div class="fs-6 para text-center my-2">{{plan?.pricePerHourINR | currency :
+                                                "INR"}} /hour</div>
+                                        </div>
+                                        <div class="d-flex flex-column justify-content-center align-items-center my-2">
+                                            <div class="para my-2">{{plan?.ramCpu}}</div>
+                                            <div class="para my-1">{{plan?.storage}}</div>
+                                            <div class="para my-1">{{plan?.transfer}}</div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="input-group d-flex flex-column mt-4">
+            <div class="form-heading mb-1">Choose Authentication Method</div>
+            <div class="row row-cols-md-2 row-cols-1 g-3 my-1">
+                <div class="col" *ngFor="let method of authenticationMethod">
+                    <label class="radio-card card h-100 d-flex flex-column" (click)="changeAuthMethod(method)">
+                        <input name="authMethod" class="radio" type="radio" [checked]="method.title == 'SSH Key'">
+                        <span class="radio-details">
+                            <div class="form-check-label d-flex flex-column justify-content-center align-items-center"
+                                for="flexRadioDefault1">
+                                <span class="text-bold">{{method.title}}</span>
+                                <span class="text-bold para mt-2">{{method.description}}</span>
+                            </div>
+                        </span>
+                    </label>
+                </div>
+            </div>
+            <div class="alert alert-primary ps-3" role="alert" *ngIf="this.defaultAuthMethod.title == 'SSH Key'">
+                <div class="form-heading">Add a public SSH key</div>
+                <div class="my-2 para">
+                    SSH keys provide a more secure way to log into an SSH server, as they are less susceptible to
+                    typical brute-force password hacking attacks.
+                </div>
+                <div class="note-section d-flex flex-row justify-content-between align-items-center px-3 mt-4">
+                    <div class="d-flex flex-row justify-content-between align-items-center">
+                        <i class="bi bi-info-circle"></i>
+                        <div class="mx-2 text-bold para">
+                            We can walk you through setting up your first SSH key</div>
+                    </div>
+                    <div>
+                        <button class="btn text-primary text-bold text-decoration-underline">Add SSH Key</button>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="this.defaultAuthMethod.title == 'Password'" class='ps-3 py-4 add-root-password'>
+                <div class="form-heading text-bold">Create root password <span class="text-danger ms-2">*</span></div>
+                <div class="input-group add-password-input-group my-2">
+                    <input type="password" class="form-control add-password shadow-none" placeholder="Password"
+                        id="root-password">
+                    <span class="input-group-text eye-icon" id="basic-addon2"><i class="bi "
+                            [ngClass]="isShowPassword ? 'bi-eye' : 'bi-eye-slash'" (click)="showPassword()"></i></span>
+                </div>
+
+                <div class="mt-3">
+                    <div class="form-heading text-bold"> Password Requirements</div>
+                    <ul class="para text-bold my-3">
+                        <li>Must be at least 8 characters long </li>
+                        <li>Must contain 1 uppercase letter (cannot be first or last character) </li>
+                        <li>Must contain 1 number </li>
+                        <li>Cannot end in a number or special character </li>
+                    </ul>
+                    <div class="mt-2 ps-3 d-flex flex-row justify-content-start align-items-center">
+                        <i class="bi bi-exclamation-triangle-fill me-3 text-danger"></i>
+                        <span class="text-bold">
+                            Please store your password securely. You will not be sent an email containing the Droplet's
+                            details or password.
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="input-group d-flex flex-column mt-4">
+            <div class="form-heading mb-1">Finalize Details</div>
+            <div class="row row-cols-md-2 row-cols-1 ps-3">
+                <div class="col">
+                    <div class="text-bolder my-2">Quantity</div>
+                    <div class="para text-bold">Deploy multiple Instances with the same configuration.</div>
+                    <div class="quantifier d-flex flex-row align-items-center my-3">
+                        <div class="increase-btn pointer text-center" (click)="addOrRemoveMachine(false)"><i
+                                class="bi bi-dash inc-icon"
+                                [ngClass]="this.sameConfigurationMachines > 1 ? '' : 'para'"></i></div>
+                        <div
+                            class="input-section text-center d-flex align-items-center flex-column justify-content-center">
+                            <span class="text-bold"> {{sameConfigurationMachines}} {{sameConfigurationMachines > 1 ? '
+                                Instances' : '
+                                Instance'}}</span>
+                        </div>
+                        <div class="decrease-btn pointer text-center" (click)="addOrRemoveMachine(true)"><i
+                                class="bi bi-plus inc-icon"
+                                [ngClass]="this.sameConfigurationMachines == 10 ? 'para' : ''"></i></div>
+                    </div>
+
+                </div>
+                <div class="col">
+                    <div class="text-bolder my-2">Hostname</div>
+                    <div class="para text-bold">Give your Droplets an identifying name you will remember them by.</div>
+                    <div class="input-group my-3" *ngFor="let i of getRange(sameConfigurationMachines)">
+                        <input type="text" class="form-control shadow-none" placeholder="Username" aria-label="Username"
+                            aria-describedby="basic-addon1" value="sdfds;lfjnads;klfjadsl">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</section>
+
+<section class="pay-details-section d-flex flex-row justify-content-between align-items-center">
+    <div class="d-flex flex-column">
+        <div class="my-1 form-heading text-bolder">{{pricePermonth | currency:"INR"}} / month</div>
+        <div class=" para text-bold">{{pricePerHour | currency:"INR"}} / hour</div>
+    </div>
+    <div class="d-flex flex-row align-items-center">
+        <div class="mx-3 text-bold text-primary  text-decoration-underline">CREATE VIA COMMAND LINE</div>
+        <div>
+            <button class="btn btn-primary p-3" (click)="onSubmit()">Create Droplet</button>
+        </div>
+    </div>
+
+</section>

@@ -1,0 +1,253 @@
+<section class="checkout-section">
+    <div class="d-flex flex-row justify-content-between align-items-center">
+        <div class="heading">
+            Create a Kubernetes cluster
+        </div>
+        <div class="learn-button pointer">
+            <span>Learn</span> <i class="bi bi-arrow-right-circle ms-2"></i>
+        </div>
+    </div>
+    <form class="form" [formGroup]="kubernetesForm">
+        <div class="input-group d-flex flex-column mt-2">
+            <div class="form-heading mb-3">Choose a datacenter region</div>
+            <app-data-center-dropdown></app-data-center-dropdown>
+        </div>
+        <div class="mt-4 w-100">
+            <div class="w-100">
+                <div class="text-bolder  my-3"> VPC Network</div>
+                <div>
+                    <b>default-{{this.selectedDataCenter.code | lowercase}}</b> <span
+                        class="default ms-4">DEFAULT</span>
+                </div>
+                <div class="para my-2">Each datacenter has a default <span class="text-primary pointer"> VPC
+                        network</span> that generates a Private
+                    IP range for
+                    you so resources in the same network can communicate securely.
+                </div>
+            </div>
+        </div>
+
+        <div class="input-group d-flex flex-column mt-5">
+            <div class="form-heading mb-3">Select a version</div>
+            <div class="para text-bold">We generally recommend the latest version unless your team has a specific need.
+                Check out <span class="text-primary pointer"> CloudBee Kubernetes release notes</span> </div>
+            <div class="dropdown my-3">
+                <button class="btn dropdown-btn d-flex flex-row justify-content-between align-items-center"
+                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="d-flex flex-row p-2 pointer">
+                        <span class="text-bolder">{{selectedVersion.version}} {{selectedVersion?.label}}</span>
+                    </div>
+                    <i class="bi bi-caret-down-fill"></i>
+                </button>
+                <ul class="dropdown-menu p-2">
+
+                    <div class="form-check-label datacenter d-flex flex-row my-3 p-2 pointer border-bottom"
+                        *ngFor="let version of kubernetesVersions" (click)="changeVersion(version)">
+                        <span class="text-bolder">{{version.version}} {{version?.label}}</span>
+                    </div>
+
+                </ul>
+            </div>
+        </div>
+
+        <div class="input-group d-flex flex-column mt-5">
+            <div class="form-heading mb-3">Choose cluster capacity <span class="ms-3"><i
+                        class="bi bi-question-square fs-5 pointer"
+                        matTooltip="These are the sets of worker machines that run your containerized applications and other workloads."
+                        matTooltipPosition="above"></i></span>
+            </div>
+            <div class="para text-bold">Select a plan that <span class="text-primary pointer"> best suits your workload
+                    type
+                </span> for overall
+                availability and
+                performance. You can add or remove <span matTooltipPosition="above"
+                    matTooltip="With additional nodes, you can run more simultaneous instances of scheduled services"
+                    class="text-info text-bolder pointer"> nodes </span> and <span matTooltipPosition="above"
+                    matTooltip="With additional node pools, you can schedule more pods to automatically supply them with the RAM, CPU and the storage they need."
+                    class="text-info text-bolder pointer"> node pools </span> at any time.
+            </div>
+            <div class="my-3 ps-3">
+                <div class="d-flex flex-row justify-content-between">
+                    <div class="d-flex flex-column">
+                        <label for="exampleFormControlInput1" class="form-label text-bolder">Node pool name
+                        </label>
+                        <input type="text" class="form-control shadow-none" id="exampleFormControlInput1"
+                            value="sdfdssdfdsfds" style="width: 20rem;" formControlName="poolName">
+                    </div>
+                    <div *ngIf="totalNodePool > 1">
+                        <i class="bi bi-trash text-danger bold-icon pointer"></i>
+                    </div>
+                </div>
+
+
+                <div class="row row-cols-lg-3 row-cols-md-2 row-cols-1 g-3 my-4">
+                    <div class="col" *ngFor="let cpu of cpuTypes">
+                        <label class="radio-card card h-100 d-flex flex-column">
+                            <input class="radio" type="radio" formControlName="cpuType" [value]="cpu.title">
+                            <span class="radio-details">
+                                <div class="form-check-label d-flex flex-column justify-content-center align-items-center"
+                                    for="flexRadioDefault1">
+                                    <span class="text-bold">{{cpu.title}}</span>
+
+                                </div>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="alert alert-light text-bolder" role="alert">
+                    {{selectedCPU?.description}}
+                </div>
+                <ng-container *ngIf="selectedCPU.title != 'GPU' else gpu">
+                    <div class="text-bolder mt-4 ">Machine Type</div>
+                    <div class="row  row-cols-lg-2 row-cols-1 g-3 my-1"
+                        [ngClass]="selectedCPU?.machineTypes?.length >= 3 ? 'row-cols-xxl-3' : 'row-cols-xxl-2'">
+                        <div class="col" *ngFor="let machine of selectedCPU?.machineTypes">
+                            <label class="radio-card card h-100 d-flex flex-column h-100 d-flex flex-column">
+                                <input class="radio" type="radio" formControlName="machineType" [value]="machine">
+                                <span class="radio-details">
+                                    <div class="form-check-label d-flex flex-column justify-content-start align-items-start"
+                                        for="flexRadioDefault1">
+
+                                        <span class="text-bolder fs-6">
+                                            {{machine.category}}
+                                        </span>
+                                        <div
+                                            class="my-2 d-flex flex-row justify-content-between align-items-center w-100">
+                                            <div class="mt-2">
+                                                <div>
+                                                    <span class="text-bold">Disk Type:</span>
+                                                    <span class="para ms-2">{{machine?.storage}}</span>
+                                                </div>
+                                                <div *ngIf="machine?.network">
+                                                    <span class="text-bold">Network:</span>
+                                                    <span class="para ms-2">{{machine?.network}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="cpu-plans mt-4">
+                        <div class="text-bold d-flex flex-row align-items-center">
+                            <span class="text-bolder me-3">Disk Options:</span>
+                            <div>
+                                <select class="form-select text-bold" aria-label="Default select example"
+                                    formControlName="diskType">
+                                    <option class="text-bold" [value]="plan.ssd"
+                                        *ngFor="let plan of selectedMachine?.plans">
+                                        {{plan.ssd}}x
+                                        SSD
+                                    </option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="row row-cols-xxl-4 row-cols-lg-3 row-cols-md-2 row-cols-1">
+                            <ng-container>
+                                <div class="col my-3" *ngFor="let planDetails of selectedMachinePlans?.prices">
+                                    <label class="radio-card card h-100 d-flex flex-column h-100 d-flex flex-column">
+                                        <input class="radio" type="radio" formControlName="plan" [value]="planDetails">
+                                        <span class="radio-details ">
+                                            <div class="form-check-label d-flex flex-column justify-content-start align-items-start"
+                                                for="flexRadioDefault1">
+                                                <div class="card-body w-100" style="margin: 2.5rem 0 0 0;">
+                                                    <div class="border-bottom pb-1">
+                                                        <div class="text-bold fs-5 text-center">
+                                                            {{planDetails?.pricePerMonth
+                                                            |
+                                                            currency
+                                                            : "INR" :'symbol':'1.0-0'}} /month per node</div>
+                                                        <div class="fs-6 para text-center my-2">
+                                                            {{planDetails?.pricePerHour
+                                                            |
+                                                            currency :
+                                                            "INR"}} /hour</div>
+                                                    </div>
+                                                    <div
+                                                        class="d-flex flex-column justify-content-center align-items-center my-2">
+                                                        <div class="para my-2">{{planDetails?.ram}} total ram</div>
+                                                        <div class="para my-1">{{planDetails?.vCPU}} {{
+                                                            planDetails?.vCPU > 1 ? 'vCPU' : 'vCPUs'}}</div>
+                                                        <div class="para my-1">{{planDetails?.storage}}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </span>
+                                    </label>
+                                </div>
+                            </ng-container>
+                        </div>
+
+                        <div class="total-nodes-section d-flex flex-column my-3">
+                            <div class="text-bold form-heading">Nodes</div>
+                            <div class="quantifier d-flex flex-row align-items-center my-2">
+                                <div class="increase-btn pointer text-center" (click)="addOrRemoveMachine(false)"><i
+                                        class="bi bi-dash inc-icon"
+                                        [ngClass]="this.totalNodesInPool > 1 ? '' : 'para'"></i></div>
+                                <div
+                                    class="input-section text-center d-flex align-items-center flex-column justify-content-center px-3">
+                                    <span class="text-bold"> {{totalNodesInPool}} {{totalNodesInPool >
+                                        1 ? '
+                                        Instances' : '
+                                        Instance'}}</span>
+                                </div>
+                                <div class="decrease-btn pointer text-center" (click)="addOrRemoveMachine(true)"><i
+                                        class="bi bi-plus inc-icon"
+                                        [ngClass]="this.totalNodesInPool == 10 ? 'para' : ''"></i></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </ng-container>
+
+                <ng-template #gpu>
+                    <div class="alert alert-primary" role="alert">
+                        <i class="bi bi-info-circle me-3 bold-icon"></i> <b> Request access:</b>
+
+                        To view and select GPU plans,
+                        <span class="text-primary text-bold pointer">submit a request</span>.
+                    </div>
+                </ng-template>
+
+            </div>
+
+            <div class="more-pool-btn mb-3">
+                <button class="btn btn-primary text-bold" (click)="addMorePool()">Add Another Node Pool</button>
+            </div>
+
+
+            <div class="form-heading my-4">Finalize Details</div>
+
+            <div class="text-bold para mb-3">You can change your cluster name at any time.</div>
+
+            <div class="mb-3 d-flex flex-column">
+                <label for="exampleFormControlInput1" class="form-label text-bold">Name <span
+                        class="text-danger">*</span></label>
+                <input type="text" class="form-control shadow-none" formControlName="clusterName"
+                    placeholder="Cluster Name..." aria-label="Username" aria-describedby="basic-addon1"
+                    style="width: 15rem;" />
+
+            </div>
+        </div>
+    </form>
+</section>
+
+<section class="pay-details-section d-flex flex-row justify-content-between align-items-center">
+    <div class="d-flex flex-column">
+        <div class="my-1 form-heading text-bolder">{{this.selectedPlan?.pricePerMonth * this.totalNodesInPool|
+            currency:"INR"}} / month</div>
+        <div class=" para text-bold">{{this.selectedPlan?.pricePerHour * this.totalNodesInPool |
+            currency:"INR"}} / hour</div>
+    </div>
+    <div class="d-flex flex-row align-items-center">
+        <div class="mx-3 text-bold text-primary  text-decoration-underline">CREATE VIA COMMAND LINE</div>
+        <div>
+            <button class="btn btn-primary p-3" (click)="onSubmit()">Create Droplet</button>
+        </div>
+    </div>
+
+</section>

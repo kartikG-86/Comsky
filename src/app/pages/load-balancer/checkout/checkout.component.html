@@ -1,0 +1,333 @@
+<section class="checkout-section">
+    <button class="my-3 px-0 back-btn  d-flex flex-row align-items-center text-bold para pointer "
+        routerLink="/networking/load-balancer">
+        <i class="bi bi-arrow-left me-2"></i>
+        <span>Load Balancer</span>
+    </button>
+    <div class="d-flex flex-row justify-content-between align-items-center">
+        <div class="heading">
+            Create a Load Balancer
+        </div>
+        <div class="learn-button pointer">
+            <span>Learn</span> <i class="bi bi-arrow-right-circle ms-2"></i>
+        </div>
+    </div>
+
+    <form class="form mt-4" [formGroup]="loadBalancerForm">
+        <div class="input-group d-flex flex-column mt-2">
+            <div class="form-heading mb-3">Choose a Load Balancer type</div>
+            <div class="para text-bold">You can either deploy your Load Balancer in a specific region or distribute
+                traffic across multiple regions. Please note that this setting cannot be modified once the Load Balancer
+                has been created.
+            </div>
+
+            <div class="row row-cols-md-2 row-cols-1 g-3 my-4">
+                <div class="col" *ngFor="let loadBalancer of loadBalancerTypes">
+                    <label class="radio-card card h-100 d-flex flex-column">
+                        <input class="radio" type="radio" formControlName="loadBalancer" [value]="loadBalancer.title">
+                        <span class="radio-details">
+                            <div class="form-check-label d-flex flex-column justify-content-center align-items-center"
+                                for="flexRadioDefault1">
+                                <span class="text-bolder fs-6">{{loadBalancer?.title}}</span>
+                                <span class="text-bolder para mt-2">{{loadBalancer?.description}}</span>
+
+                            </div>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="input-group d-flex flex-column mt-3">
+            <div class="form-heading mb-3">Choose a datacenter region</div>
+            <div class="para text-bold">Select the same data center as the Droplets you intend to load balance.</div>
+
+            <div class="row row-cols-xxl-6 row-cols-xl-5 row-cols-lg-4 row-cols-md-2 row-cols-1 g-3 mt-2 mb-3">
+                <ng-container *ngFor="let dataCenterRegion of dataCentersRegions">
+                    <div class="col my-3" *ngFor="let location of dataCenterRegion?.locations">
+                        <label class="radio-card card h-100 d-flex flex-column">
+                            <input class="radio" type="radio" formControlName="region" [value]="location">
+                            <div class="radio-details data-center d-flex flex-column align-items-center pt-3">
+                                <img class="flag-icon" [src]="location?.image" />
+                                <div class="w-100 mt-3">
+                                    <div [ngClass]="{
+                                        'first-box': i == 0, 
+                                        'last-box': i == (location?.dataCenters?.length || 1) - 1,
+                                        'border-green': chosenDataCenter?.code == dataCenter?.code, 
+                                      }" class="d-inline-block text-center py-2 text-bolder"
+                                        *ngFor="let dataCenter of location?.dataCenters let i = index"
+                                        [ngStyle]="{'width': 'calc(100% / ' + location.dataCenters.length + ')'}"
+                                        (click)="selectDataCenter(dataCenter)">
+                                        {{i+1}}
+                                    </div>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </ng-container>
+            </div>
+
+        </div>
+
+        <div class="input-group d-flex flex-column mt-3 ps-3">
+            <div class="form-heading mb-3">VPC Network</div>
+            <div class="mt-1 w-100">
+                <div class="d-flex flex-row" [ngClass]="!this.chosenDataCenter ? 'd-block' : 'd-none'"
+                    style="height: 3rem;">
+                    <div class="spinner-border text-primary" role="status">
+                    </div>
+                    <span class="ms-3 text-bold">Loading...</span>
+                </div>
+                <div class="w-100" [ngClass]="this.chosenDataCenter ? 'd-block' : 'd-none'">
+                    <div>
+                        VPC Network - <b>default-{{this.chosenDataCenter.code | lowercase}}</b> <span
+                            class="default ms-4">DEFAULT</span>
+                    </div>
+                    <div class="para my-2">{{this.chosenDataCenter.defaultMessage}}</div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="input-group d-flex flex-column mt-5">
+            <div class="form-heading mb-1">Network Visibility</div>
+            <div class="my-2 para text-bold">Load balancers can be configured to operate either solely within the
+                private network or be exposed to the public network, enabling access from external networks.
+            </div>
+
+            <div class="row row-cols-md-2 row-cols-1 g-3 my-3">
+                <div class="col" *ngFor="let option of networkVisibilityOptions">
+                    <label class="radio-card card h-100 d-flex flex-column">
+                        <input class="radio" type="radio" formControlName="network" [value]="option.title">
+                        <span class="radio-details">
+                            <div class="form-check-label d-flex flex-column justify-content-center align-items-center"
+                                for="flexRadioDefault1">
+                                <span class="text-bolder fs-6">{{option?.title}}</span>
+                                <span class="text-bolder para mt-2">{{option?.description}}</span>
+
+                            </div>
+                        </span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex flex-column mt-5">
+            <div class="form-heading mb-1">Scaling configuration </div>
+            <div class="mt-2 para text-bold">You can scale this Load Balancer by <span routerLink=""
+                    class="text-primary pointer">
+                    adding additional nodes <i class="bi bi-arrow-up-right text-primary "></i></span>, which will
+                increase the capacity for simultaneous connections, requests per second, and new SSL connections per
+                second.You can change the number of nodes at anytime
+            </div>
+            <div class="scaling-box my-4">
+                <div class="scaling-info w-100">
+                    <div class="p-4 d-flex flex-column border-bottom">
+                        <div class="d-flex flex-row justify-content-between align-items-center">
+                            <div class="text-bolder">
+                                Number of nodes
+                                <i class="bi ms-2 fs-5 para bi-question-square pointer"
+                                    matTooltip="Minimum a one node is required. Every node is charged at a flat rate of {{1000 | currency:'INR'}} /node per month"
+                                    matTooltipPosition="above">
+                                </i>
+                            </div>
+
+                            <div class="d-flex flex-row align-items-center">
+                                <div class="input-section d-flex align-items-center justify-content-center text-bolder">
+                                    {{totalNodes}}
+                                </div>
+                                <div class="d-flex flex-column btns">
+                                    <div class=" w-100 h-50 d-flex align-items-center justify-content-center pointer"
+                                        (click)="increment(true)">
+                                        <i class="bi bi-chevron-up bold-icon"
+                                            [ngClass]="totalNodes <= 1 ? 'para' : ''"></i>
+                                    </div>
+                                    <div class=" w-100 h-50 d-flex align-items-center justify-content-center pointer"
+                                        (click)="increment(false)">
+                                        <i class="bi bi-chevron-down bold-icon"
+                                            [ngClass]="totalNodes <= 1 ? 'para' : ''"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-2 text-end para text-bold">
+                            <small *ngIf="totalNodes <=1">You must have at least one node</small>
+                            <small *ngIf="totalNodes >= 6">You’ve hit your Load Balancer account limit (6)</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scaling-options p-4">
+                    <div *ngFor="let config of scalingConfigOptions"
+                        class="d-flex flex-row justify-content-between align-items-center my-4">
+                        <div class="text-bolder d-flex flex-row">
+                            <div class="text-bolder">{{config.title}}</div>
+                            <div *ngIf="config?.toolTipMessage">
+                                <i class="bi ms-2 fs-5 para bi-question-square pointer"
+                                    [matTooltip]="config?.toolTipMessage" matTooltipPosition="above">
+                                </i>
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-row align-items-center">
+                            <div *ngIf="config?.icon" class="mx-2">
+                                <i class="bi bold-icon fs-5"
+                                    [ngClass]="totalNodes <= 1 ? 'bi-info-circle text-purple' : 'bi-check-circle text-success '"></i>
+                            </div>
+                            <div class="text-bolder para">{{config?.isNumber ? config.value * totalNodes :
+                                totalNodes <= 1 ? 'Disabled' : 'Enabled' }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="scaling-options p-4 border-top-0 border-bottom-0">
+                        <div class="my-1 text-bolder fs-5">Monthly Cost: {{totalCost * totalNodes | currency: "INR"}}
+                        </div>
+                        <div class="text-bold para"> {{totalCost | currency:"INR"}} / node </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert alert-primary p-3">
+                <div class="text-bolder d-flex flex-row"> <i class="me-2 bi bi-info-circle text-purple bold-icon"></i>
+                    Not sure what size to choose?</div>
+                <div class="mt-2 para text-bold">Begin with two nodes for a production deployment or one node for
+                    testing. Once the load balancer is
+                    set up, keep an eye on the aforementioned metrics and adjust the scale up or down as necessary.
+                </div>
+            </div>
+
+            <div class="d-flex flex-column mt-5">
+                <div class="form-heading mb-1">Connect Instances</div>
+                <div class="my-2 para text-bold">
+                    You can connect Instances or a group of Instances using tags either at
+                    the time of Load Balancer creation or afterward. However, all Instances must reside within the same
+                    VPC network as the Load Balancer.
+                </div>
+                <input type="text" class="form-control shadow-none " placeholder="Search for an instance"
+                    aria-label="Username" aria-describedby="basic-addon1">
+
+            </div>
+
+            <div class="d-flex flex-column mt-5">
+                <div class="form-heading mb-1">Forwarding rules </div>
+                <div class="my-2 para text-bold">
+                    Configure how traffic will be directed from the Load Balancer to your Instances, ensuring that at
+                    least
+                    one routing rule is established.
+                </div>
+
+                <div class="mt-3">
+                    <div class="custom-table">
+                        <div class="columns d-flex flex-row py-2 px-3 text-bolder">
+                            <div class="column"
+                                [ngStyle]="{'width':selectedLoadBalancerProtocol?.isCertificate ? '33.5rem' : '23.5rem' }">
+                                LoadBalancer
+                            </div>
+                            <div class="ms-4 column" style="width: 23.5rem;">
+                                Instance
+                            </div>
+                        </div>
+
+                        <div class="rows d-flex flex-row align-items-center my-2 px-2">
+                            <div class="row d-flex flex-row align-items-center px-2">
+                                <div class="form-floating px-1">
+                                    <select class="form-select shadow-none " id="floatingSelect"
+                                        aria-label="Floating label select example"
+                                        formControlName="loadBalancerProtocol">
+                                        <option *ngFor="let protocol of protocols">
+                                            {{protocol?.loadBalancerProtocol}}</option>
+                                    </select>
+                                    <label for="floatingSelect text-bold">Protocol</label>
+                                </div>
+
+                                <div class="form-floating px-1">
+                                    <input type="text" class="form-control shadow-none" placeholder="Port"
+                                        formControlName="loadBalancerPort">
+                                    <label for="floatingInput">Port</label>
+                                </div>
+
+                                <div class="form-floating px-1"
+                                    *ngIf="this.selectedLoadBalancerProtocol?.isCertificate">
+                                    <select class="form-select shadow-none" id="floatingSelect"
+                                        aria-label="Floating label select example" formControlName="certificate">
+                                        <option
+                                            *ngFor="let certificate of this.selectedLoadBalancerProtocol?.certificates">
+                                            {{certificate}}</option>
+                                    </select>
+                                    <label for="floatingSelect text-bold">Protocol</label>
+                                </div>
+
+                                <div style="width: 5rem; " class="text-center">
+                                    <i class="bi bi-arrow-right para bold-icon"></i>
+                                </div>
+                            </div>
+                            <div class="row d-flex flex-row align-items-center ms-2">
+                                <div class="form-floating px-1 px-1">
+                                    <select class="form-select shadow-none" id="floatingSelect"
+                                        aria-label="Floating label select example" formControlName="instanceProtocol">
+                                        <option
+                                            *ngFor="let instanceProtocol of selectedLoadBalancerProtocol?.instanceProtocols"
+                                            [value]="instanceProtocol">
+                                            {{instanceProtocol?.protocol}}</option>
+                                    </select>
+                                    <label for="floatingSelect text-bold">Protocol</label>
+                                </div>
+
+                                <div class="form-floating px-1">
+                                    <input type="text" class="form-control shadow-none" placeholder="Port"
+                                        formControlName="instancePort">
+                                    <label for="floatingInput">Port</label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="my-4">
+                    <div class="form-heading">Advanced Settings</div>
+                    <div class="settings p-4 my-2">
+                        <div class="text-bold para">The most commonly used settings are selected by default. You can
+                            change
+                            them at any time by clicking “Edit Advanced Settings”.
+                        </div>
+
+                        <div class="my-3">
+                            <button class="btn btn-secondary p-2 text-bolder">Edit Advanced Settings</button>
+                        </div>
+
+                        <div class="row row-cols-lg-3 row-cols-md-2 row-cols-1">
+                            <div class="col my-3" *ngFor="let setting of defaultAdvancedSettings">
+                                <div class="text-bolder">{{setting.title}}</div>
+                                <div class="text-bold para my-2">{{setting.value}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="my-4">
+                    <div class="form-heading">Finalize and Create </div>
+
+                    <div class="d-flex flex-row my-3 align-items-center">
+                        <div class="me-3">
+                            <div class="text-bolder">Choose a name</div>
+                            <div class="my-2 para">Load Balancer names must be unique and can only include alphanumeric
+                                characters, dashes, and periods.
+                            </div>
+                        </div>
+                        <div>
+                            <input type="text" class="form-control p-2" placeholder="Load Balancer Name"
+                                aria-label="Username" aria-describedby="basic-addon1" value="dfdfsdlfadjs">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="my-4">
+                    <button class="btn text-bold btn-success w-100 p-2">Create Load Balancer</button>
+                </div>
+            </div>
+    </form>
+</section>

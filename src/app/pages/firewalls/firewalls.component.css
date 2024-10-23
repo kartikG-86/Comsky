@@ -1,0 +1,25 @@
+.checkout-section {
+    width: 100%;
+    padding: 5rem 5rem;
+    height: 100%;
+    overflow-y: auto;
+}
+.firewall-rules{
+    border-radius: 3px;
+    border-style: hidden;
+    box-shadow: 0 0 0 2px #f1f1f1;
+    border-collapse: collapse;
+    margin-left: 2px;
+    text-align: left
+}
+table thead:first-child tr:first-child {
+    background: #fafafa;
+    border: 2px solid #f1f1f1;
+}
+table tr {
+    transition: background .4s;
+}
+table thead:first-child tr:first-child th:first-of-type {
+    padding-left: 15px;
+    border-top-left-radius: 3px;
+}

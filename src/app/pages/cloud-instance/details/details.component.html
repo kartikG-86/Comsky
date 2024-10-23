@@ -1,0 +1,167 @@
+<section class="main-section p-xxl-5 p-3">
+    <button class="my-1 px-0 back-btn  d-flex flex-row align-items-center text-bold para pointer "
+        routerLink="/cloud-instance">
+        <i class="bi bi-arrow-left me-2"></i>
+        <span>Back to Cloud Instance</span>
+    </button>
+
+    <div class="my-4 d-flex flex-row justify-content-between align-items-center">
+        <div class="d-flex flex-row align-items-center">
+            <div class="image position-relative">
+                <img src="images/cloud-instance1.png" class="img-icon" />
+                <div class="position-absolute machine-status"
+                    [ngClass]="instanceDetails?.isActive ? 'background-green' : 'background-red'"></div>
+            </div>
+            <div class="ms-3">
+                <div class="text-bolder fs-4">{{instanceDetails?.name}}</div>
+                <div class="text-bolder fs-6">
+                    {{instanceDetails?.specifications?.memory}} / {{ instanceDetails?.specifications?.disk }} / {{
+                    instanceDetails?.dataCenter?.code }} - <span class="para text-bold"> <small>{{
+                            instanceDetails?.specifications?.os }} {{ instanceDetails?.specifications?.version
+                            }}</small></span>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex flex-row align-items-center">
+            <button class="btn-primary upsize-btn px-3">Upsize Instance</button>
+            <label class="switch ms-3">
+                <input type="checkbox" [checked]="!isPowerOff" (change)="changePowerStatus()">
+                <div class="slider round d-flex flex-row justify-content-between px-2 py-1">
+                    <div class="status" [ngClass]="isPowerOff ? 'opacity-0' : 'opacity-1'">
+                        ON
+                    </div>
+                    <div class="status" [ngClass]="!isPowerOff ? 'opacity-0' : 'opacity-1'">
+                        OFF
+                    </div>
+                </div>
+            </label>
+        </div>
+    </div>
+
+    <div class="border-top border-bottom p-2 d-flex flex-row justify-content-between ">
+        <div class="d-flex flex-row">
+            <div class="text-bolder mx-2">ipv4:</div>
+
+            <div class="text-bold para px-2" (mouseenter)="showCopyIcon('ipv4')" (mouseleave)="showCopyIcon('ipv4')">
+                <span class="pointer" *ngIf="instanceDetails?.specifications?.ipv4 else default">
+                    {{instanceDetails?.specifications?.ipv4}}
+
+                    <span class="position-relative">
+                        <span class="ms-2 text-primary text-bold pointer" (click)="copyText('ipv4')"
+                            [ngClass]="isShowCopyIcon && copyIconTitle == 'ipv4' ? 'opacity-1' : 'opacity-0'">
+                            Copy
+                        </span>
+
+                        <!-- Copied message -->
+                        <span class="text-primary ms-2 copied-text" *ngIf="isCopied && copyIconTitle === 'ipv4'">
+                            Copied!
+                        </span>
+                    </span>
+                </span>
+                <ng-template #default>
+                    <span class="text-primary">
+                        Enable Now
+                    </span>
+                </ng-template>
+
+            </div>
+        </div>
+        <div class="d-flex flex-row">
+            <div class="text-bolder mx-2">ipv6:</div>
+            <div class="text-bold para" (mouseenter)="showCopyIcon('ipv6')" (mouseleave)="showCopyIcon('ipv6')">
+                <span class="pointer" *ngIf="instanceDetails?.specifications?.ipv6 else default">
+                    {{instanceDetails?.specifications?.ipv6}}
+
+                    <span class="position-relative">
+                        <span class="ms-2 text-primary text-bold pointer" (click)="copyText('ipv6')"
+                            [ngClass]="isShowCopyIcon && copyIconTitle == 'ipv6' ? 'opacity-1' : 'opacity-0'">
+                            Copy
+                        </span>
+
+                        <!-- Copied message -->
+                        <span class="text-primary ms-2 copied-text" *ngIf="isCopied && copyIconTitle === 'ipv6'">
+                            Copied!
+                        </span>
+                    </span>
+                </span>
+                <ng-template #default>
+                    <span class="text-primary">
+                        Enable Now
+                    </span>
+                </ng-template>
+            </div>
+        </div>
+        <div class="d-flex flex-row">
+            <div class="text-bolder mx-2">Private IP:</div>
+            <div class="text-bold para" (mouseenter)="showCopyIcon('privateIP')"
+                (mouseleave)="showCopyIcon('privateIP')">
+                <span class="pointer" *ngIf="instanceDetails?.specifications?.privateIP else default">
+                    {{instanceDetails?.specifications?.privateIP}}
+                    <span class="position-relative">
+                        <span class="ms-2 text-primary text-bold pointer" (click)="copyText('privateIP')"
+                            [ngClass]="isShowCopyIcon && copyIconTitle == 'privateIP' ? 'opacity-1' : 'opacity-0'">
+                            Copy
+                        </span>
+
+                        <!-- Copied message -->
+                        <span class="text-primary ms-2 copied-text" *ngIf="isCopied && copyIconTitle === 'privateIP'">
+                            Copied!
+                        </span>
+                    </span>
+                </span>
+                <ng-template #default>
+                    <span class="text-primary">
+                        Enable Now
+                    </span>
+                </ng-template>
+            </div>
+        </div>
+        <div class="d-flex flex-row">
+            <div class="text-bolder mx-2">Reserved IP:</div>
+            <div class="text-bold para" (mouseenter)="showCopyIcon('reservedIP')"
+                (mouseleave)="showCopyIcon('reservedIP')">
+                <span class="pointer" *ngIf="instanceDetails?.specifications?.reservedIP else default">
+                    {{instanceDetails?.specifications?.reservedIP}}
+                    <span class="position-relative">
+                        <span class="ms-2 text-primary text-bold pointer" (click)="copyText('reservedIP')"
+                            [ngClass]="isShowCopyIcon && copyIconTitle == 'reservedIP' ? 'opacity-1' : 'opacity-0'">
+                            Copy
+                        </span>
+
+                        <!-- Copied message -->
+                        <span class="text-primary ms-2 copied-text" *ngIf="isCopied && copyIconTitle === 'reservedIP'">
+                            Copied!
+                        </span>
+                    </span>
+                </span>
+                <ng-template #default>
+                    <span class="text-primary">
+                        Enable Now
+                    </span>
+                </ng-template>
+            </div>
+        </div>
+        <div class="d-flex flex-row">
+            <div class="text-bolder text-primary mx-2">Console</div>
+            <i class="bi bi-layers me-3 pointer text-primary"></i>
+            <div class="text-bold para "><i class="bi bi-question-square pointer"
+                    matTooltip="Don't want to be log in as root? Log in as another user in access tab."
+                    matTooltipPosition="above"></i></div>
+        </div>
+
+    </div>
+
+    <div class="w-100 row p-3 py-5">
+        <div class="col-2">
+            <ul>
+                <li class="para text-bold mb-2 pointer" *ngFor="let feature of detailFeatures"
+                    [routerLink]="'/cloud-instance/details'+feature.link" routerLinkActive="active-route"
+                    [routerLinkActiveOptions]="{ exact: false }">{{feature.title}}</li>
+            </ul>
+        </div>
+        <div class="col-10">
+            <router-outlet></router-outlet>
+        </div>
+
+    </div>
+</section>

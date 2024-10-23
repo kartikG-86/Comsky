@@ -1,0 +1,60 @@
+<section class="main-section w-100">
+
+    <ng-container *ngIf="!userBackups else list">
+        <div class="card-section d-flex flex-row justify-content-between align-items-center p-4">
+            <div>
+                <div class="fs-4 text-bolder">
+                    Reduce the worry of failure with Automated Backups.</div>
+
+                <div class="my-3 text-bold para">
+                    They can be used to recover lost or corrupted data and to create new instances.
+                </div>
+
+                <div class="my-3">
+                    <button class="btn btn-outline-primary text-bolder p-3 px-4"
+                        (click)="openBackupModal('Enable Automated Backups')">
+                        Create Automated Backups
+                    </button>
+                </div>
+            </div>
+
+            <div>
+                <img class="img-icon" src="images/backup.png" />
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-template #list>
+        <div class="d-flex flex-row justify-content-between align-items-center">
+            <div>
+                <div class="fs-4 text-bolder">Automated Backups</div>
+
+                <div class="my-3">
+                    <span class="text-bold para">Backups are taken</span>
+                    <span class="text-bolder"> {{userBackups?.frequency | titlecase}} {{userBackups?.time?.start}} -
+                        {{userBackups?.time?.end}} ({{userBackups?.time?.timezone}})
+                    </span>
+                </div>
+            </div>
+
+            <div>
+                <button class="btn mx-4 text-bold btn-outline-danger" (click)="openDisableModal()">Disable
+                    Backups</button>
+                <button class="btn text-bold btn-outline-primary" (click)="openBackupModal('Backup settings')">Edit
+                    Settings</button>
+            </div>
+        </div>
+
+        <div class="card-section my-3 p-4 d-flex flex-column justify-content-between align-items-center">
+            <div>
+                <img class="img-icon" src="images/backup-active.png" />
+            </div>
+            <div class="d-flex flex-row align-items-center mt-4">
+                <i class="bi bi-check2 me-2 text-success bold-icon fs-4"></i>
+                <div class="fs-5  text-bolder">Backups are enabled</div>
+            </div>
+        </div>
+    </ng-template>
+
+
+</section>

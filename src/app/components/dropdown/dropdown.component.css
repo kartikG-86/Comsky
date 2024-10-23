@@ -1,0 +1,25 @@
+.img-icon{
+    width: 2rem;
+    height: 2rem;
+}
+
+.dropdown-menu{
+    
+    overflow-y: auto;
+    overflow-x: hidden;
+ 
+}
+
+.dropdown-btn{
+
+    height: 4rem;
+    border: 2px solid var(--bs-border-color);
+    
+}
+.selected-dropdown-item{
+    background-color: rgba(128, 128, 128, 0.527);
+}
+
+.datacenter:hover{
+    background-color: rgba(128, 128, 128, 0.199);
+}

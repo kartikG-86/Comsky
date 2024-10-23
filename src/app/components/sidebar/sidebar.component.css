@@ -1,0 +1,100 @@
+.sidebar{
+    width: 16rem;
+    height: 100%;
+    background-color: var(--bs-blue-darker);
+    color: white;
+    transition: all 0.3s;
+    overflow-y: auto;
+}
+
+.logo{
+    width: 2.5rem;
+    height: 2.5rem;
+    mix-blend-mode: luminosity;
+
+}
+.heading{
+    font-size: 1.1rem;
+}
+
+.border-bottom{
+    border-bottom: 1.7px solid rgba(255, 255, 255, 0.342) !important;
+    padding-bottom: 0.8rem;
+}
+
+.active-sidebar{
+    width: 4rem !important;
+}
+
+.brand-logo{
+    padding-left: 1rem;
+    padding-top: 1rem;
+}
+
+
+.bi{
+    -webkit-text-stroke: 0.5px;
+    font-size: 0.9rem;
+}
+
+
+.hamburger-main-section {
+    cursor: pointer;
+    height: 3rem;
+    overflow: hidden;
+    transition: all 0.3s;
+    position: sticky;
+    width: 100%;
+}
+
+.sidebar-item:hover , .submenu-item:hover{
+    background-color: rgb(230, 230, 230);
+    color: var(--bs-blue-darker);
+    font-weight: 600
+}
+.hamburger-submenu {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 20rem;
+    color: white;
+}
+
+.hamburger-submenu::-webkit-scrollbar{
+    width: 10px;   
+    background-color: grey;
+    border-radius: 2rem;
+}
+
+.hamburger-submenu::-webkit-scrollbar-thumb{
+    background-color: white;
+    border-radius: 2rem;
+
+}
+
+
+.active-hamburger-main-section {
+    height: 23rem;
+    max-height: 23rem;
+}
+
+.sidebar-close-icon{
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0 14px 0 0px;
+    margin-left: -6px;
+}
+
+.sideItem-icon{
+    font-size: 1rem;
+}
+
+.row{
+    padding: 0 10px;
+}
+
+/* @media screen and (max-width:992px){
+    .sidebar{
+        position: absolute;
+        z-index: 1000;        
+    }
+} */

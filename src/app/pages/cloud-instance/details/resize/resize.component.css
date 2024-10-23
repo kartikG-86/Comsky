@@ -1,0 +1,28 @@
+.plan-sub-heading{
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+.plan{
+    height: 3.6rem
+}
+
+.plan:hover{
+    border-bottom: 2px solid var(--bs-border-color);
+}
+
+.plan-table{
+    max-height: 30rem;
+    overflow-y: auto;
+}
+
+.sticky-header {
+    position: sticky;
+    top: 0; /* Make sure to set top to 0 */
+    background-color: #fff; /* Match the background color to avoid transparency issues */
+    z-index: 1; /* Ensure the header is above the table rows */
+}
+
+.active-row{
+    background-color: red;
+}

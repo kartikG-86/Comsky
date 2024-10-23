@@ -1,0 +1,14 @@
+<section class="checkout-section">
+    <div class="heading">
+        Networking
+    </div>
+    <div class="mb-4">
+        <ul class="networklinks">
+            <li *ngFor="let links of networkLinks" class="links">
+                <a class="link" [routerLink]="'/networking'+links.link" [routerLinkActive]="['active-link']"
+                    [routerLinkActiveOptions]="{exact: true}">{{links.name}}</a>
+            </li>
+        </ul>
+    </div>
+    <router-outlet></router-outlet>
+</section>

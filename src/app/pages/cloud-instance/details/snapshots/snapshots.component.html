@@ -1,0 +1,98 @@
+<section class="w-100">
+
+    <div class="card-section p-4">
+        <div class="d-flex flex-row justify-content-between align-items-center">
+            <span class="fs-4 text-bolder "> Take snapshot
+            </span>
+            <app-learn-btn title="Learn"></app-learn-btn>
+        </div>
+
+        <div class="my-3 text-bold para d-flex flex-row">
+            <span>
+                We recommend turning off your Droplet before taking a snapshot to ensure data consistency.
+            </span>
+            <span class="ms-2">
+                <app-learn-btn title="Learn more" iconType="up"></app-learn-btn>
+            </span>
+        </div>
+
+        <div class="my-3 text-bold para">
+            The cost of a snapshot is based on the space used (not the filesystem size) and is charged at a rate of
+            $5.04 per GiB
+            per month.
+        </div>
+
+        <div class="my-3 text-bold para">
+            Creating a snapshot typically takes 1 to 3 minutes per GB of used disk space. For example, an instance with
+            10 GB of
+            used space would take around 10 to 30 minutes. However, this duration may vary based on factors such as
+            current disk
+            activity and the load on the instance or hypervisor.
+        </div>
+
+        <form [formGroup]="snapshotForm">
+            <div class="my-3 d-flex flex-row">
+                <div class="form-floating mb-3 w-75">
+                    <input type="email" class="form-control shadow-none" id="floatingInput"
+                        placeholder="Enter Snapshot name" formControlName="name">
+                    <label for="floatingInput">Enter Snapshot name</label>
+                </div>
+                <div class="w-25 ms-2">
+                    <button class="btn btn-primary w-100 p-3" [disabled]="this.snapshotForm.invalid"
+                        (click)="createSnapshot()">Take
+                        Snapshot</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <ng-container *ngIf="userSnapshots.length == 0 else list">
+        <div class="my-4 card-section p-4">
+            <div class="fs-4 text-bolder">Instance Snapshots</div>
+            <div class="text-bolder para my-3">You currently don't have any snapshots of this Instance.
+            </div>
+        </div>
+
+    </ng-container>
+
+    <ng-template #list>
+
+        <div class="card-section p-4 my-4">
+            <div class="fs-4 text-bolder mb-3">Instance Snapshots</div>
+            <table class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th *ngFor="let row of snapshotsRows" scope="col">{{row}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of userSnapshots">
+                        <td>{{data.name}}</td>
+                        <td>{{1.93}} GB</td>
+                        <td>{{data.dataCenterCode}}</td>
+                        <td>{{this.differenceInTime(data.createdAt)}}</td>
+                        <td>
+                            <div class="dropdown-center">
+                                <button class="btn text-primary d-flex flex-row align-items-center border-none"
+                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="me-2">more</span>
+                                    <div>
+                                        <i class="bi bi-chevron-down bold-icon"></i>
+                                    </div>
+                                </button>
+                                <ul class="dropdown-menu p-0">
+                                    <li class="pointer text-center" *ngFor="let option of snapshotMoreOptions">
+                                        <div class="p-2 text-bold" [ngClass]="option?.class">
+                                            {{option?.title}}
+                                        </div>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </ng-template>
+</section>

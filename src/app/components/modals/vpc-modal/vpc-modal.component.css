@@ -1,0 +1,29 @@
+input , select , textarea {
+    outline: none;
+  }
+  
+  .input:focus , select:focus , textarea:focus{
+    outline: none;
+  }
+
+  .btn:hover{
+    border: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+
+ button{
+    background-color: white;
+    border: none;
+ } 
+
+ .btn-primary{
+    background-color: #0c6efd;
+    color: white;
+    border-radius: 5px;
+ }
+
+ .alert-primary{
+    background-color: #f3f5f9;
+    border: 1px solid #bbbbbb59;
+ }

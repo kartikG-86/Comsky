@@ -1,0 +1,102 @@
+.section{
+    height: 100%;
+    overflow-y: auto;
+}
+.main-section{
+    min-height: 34rem;
+    width: 100%;
+    background-image: url('/images/cloud_instance_background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.text-section{
+    max-width: 40rem;
+    line-height: 28px;
+
+}
+.card-box{
+    background-color: white;
+    max-width: 23rem;
+    height: max-content;
+    border-radius: 5px;
+}
+
+ul{
+    list-style: none;
+    font-size: 0.9rem;
+}
+
+.bi-check2{
+   -webkit-text-stroke: 0.8px;    
+}
+
+.btn{
+    height: 3rem;
+    width: 10rem;
+}
+
+.img-icon{
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+
+.card{
+    border: none;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; 
+}
+
+.btn-primary:hover{
+       background-color: var(--bs-blue-primary);
+       color: white;
+}
+
+.search-text{
+        height: 3rem;
+        min-width: 28rem;
+}
+
+input{
+        outline: none;
+       
+}
+
+input:focus{
+        outline: none;
+        border: 1px solid var(--bs-border-color);
+}
+
+.table-img-icon{
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.backup-icon{
+    width: 23px;
+    height: 23px;
+}
+
+.upsize-btn{
+    width: 5rem;
+    height: 2rem;
+    font-size: 0.9rem;
+}
+
+.action-btn{
+    border: none;
+    background-color: white;
+}
+
+.dropdown-menu{
+    width: 12rem;
+}
+.dropdown-menu li:hover{
+    background-color: var(--bs-border-color);
+}
+
+.bi-chevron-down{
+    font-size: 0.9rem;
+    -webkit-text-stroke: 0.8px;
+}

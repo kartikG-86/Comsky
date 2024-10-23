@@ -1,0 +1,67 @@
+<div class="p-4">
+    <div class="d-flex flex-row justify-content-between align-items-center">
+        <div class="fs-4 text-bold">Create VPC Peering</div>
+        <div><i class="bi bi-x fs-3 bold-icon pointer" (click)="closeModal()"></i></div>
+    </div>
+
+    <div class="my-4 para">
+        Establish a bidirectional private connection between VPC networks to enable private access to resources within
+        both networks.
+        <a class=" text-primary p-0 text-start my-1 text-bolder pointer">
+            Learn more
+            <i class="bi bi-arrow-up-right bold-icon"></i>
+        </a>
+    </div>
+
+    <form [formGroup]="vpcForm">
+        <div class="my-3 d-flex flex-row align-items-center w-100">
+            <div class="w-100 me-3">
+                <div class="text-bolder sub-heading">VPC Network</div>
+                <app-dropdown width="100%" [dropdownData]="vpcNetworkDropdownData"
+                    (selectedOption)="selectedVPC($event)"></app-dropdown>
+            </div>
+            <div class="mx-3">
+                <i class="bi bi-arrow-left-right bold-icon para fs-5"></i>
+            </div>
+            <div class="w-100 mx-3">
+                <div class="text-bolder sub-heading">Peer to VPC Network</div>
+                <app-dropdown width="100%" [dropdownData]="peerToVPCDropdownData"
+                    (selectedOption)="selectedPeerNetwork($event)"></app-dropdown>
+            </div>
+        </div>
+
+        <div class="my-3">
+            <div class="sub-heading text-bolder">Choose a name</div>
+            <div class="my-1 text-bold para">Can only contain alphanumeric characters, dashes, and periods
+
+                <input type="text" class="form-control shadow-none mt-3 " placeholder="Choose a name"
+                    formControlName="name">
+
+
+                <div *ngIf="vpcForm.controls.name.invalid && (vpcForm.controls.name.touched || vpcForm.controls.name.dirty)"
+                    class="text-danger text-bold">
+                    <div *ngIf="vpcForm.controls.name.errors?.['required']">
+                        <small>Please fill out this field.</small>
+                    </div>
+                    <div *ngIf="vpcForm.controls.name.errors?.['minlength']">
+                        <small>Must be at least 2 characters long.</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert alert-primary p-3 my-3" *ngIf="vpcForm.value.peerVPC">
+            <div class="text-bolder">Usage Cost: <span class="text-bold para"> {{0 | currency:"INR"}} / GiB per
+                    month</span> </div>
+            <div class="mt-2 para text-bold">There is no charge for data transferred within the same datacenter region
+            </div>
+        </div>
+
+        <div class=" mt-4 mb-2 d-flex flex-row justify-content-end align-items-center">
+            <button class="btn text-primary text-bold p-2" (click)="closeModal()">Cancel</button>
+            <button class="btn text-bold btn-primary mx-3 p-2" [disabled]="this.vpcForm.invalid"
+                (click)="closeModal()">Create peering
+                connection</button>
+        </div>
+    </form>
+</div>

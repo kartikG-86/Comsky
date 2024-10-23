@@ -1,0 +1,12 @@
+.img-icon{
+    width: 3rem;
+    height: 3rem;
+}
+
+.sub-heading{
+    font-size: 15px;
+}
+
+.cancel-btn{
+    background-color: var(--bs-gray-light);
+}

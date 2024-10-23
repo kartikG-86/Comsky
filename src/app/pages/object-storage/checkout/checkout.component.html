@@ -1,0 +1,108 @@
+<section class="checkout-section">
+    <div class="d-flex flex-row justify-content-between align-items-center">
+        <div class="heading">
+            Create an Object Storage
+        </div>
+        <div class="learn-button pointer">
+            <span>Learn</span> <i class="bi bi-arrow-right-circle ms-2"></i>
+        </div>
+    </div>
+    <form class="form" [formGroup]="objectStorageForm">
+        <div class="input-group d-flex flex-column mt-2">
+            <div class="form-heading mb-3">Choose a datacenter region</div>
+            <div class="para text-bold">Your Kubernetes cluster will be located in a single datacenter. </div>
+            <div class="dropdown my-3">
+                <button class="btn dropdown-btn d-flex flex-row justify-content-between align-items-center"
+                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="d-flex flex-row p-2 pointer">
+                        <img [src]="selectedDataCenter?.image" class="me-3 flag-icon" />
+                        <span class="text-bolder">{{selectedDataCenter?.region}} . {{selectedDataCenter?.dataCenter}} .
+                            {{selectedDataCenter?.code}}</span>
+                    </div>
+                    <i class="bi bi-caret-down-fill"></i>
+                </button>
+                <ul class="dropdown-menu p-2">
+                    <div *ngFor="let dataCenter of dataCenters" class="my-4">
+                        <span class="para text-bold my-1">{{dataCenter?.continent}}</span>
+                        <div class="form-check-label datacenter d-flex flex-row my-3 p-2 pointer border-bottom"
+                            *ngFor="let location of dataCenter?.locations" (click)="changeDataCenterRegion(location)"
+                            [ngClass]="this.selectedDataCenter?.code == location.code ? 'selected-dropdown-item' : ''">
+                            <img [src]="location?.image" class="me-3 flag-icon" />
+                            <span class="text-bolder">{{location?.region}} . {{location?.dataCenter}} .
+                                {{location?.code}}</span>
+                        </div>
+                    </div>
+
+                </ul>
+            </div>
+        </div>
+
+        <div class="my-3">
+            <div class="form-heading">Contact Delivery Network (CDN)</div>
+            <div class="my-2 text-bold para">Enhance web asset delivery by up to 70% with global edge caching
+                technology. No extra charges—only standard bandwidth fees apply.
+            </div>
+            <div class="alert alert-primary text-bolder" role="alert" *ngIf="objectStorageForm.value.isEnableCDN">
+                Note: You can assign a custom domain in CDN settings after an Object Storage is created
+            </div>
+            <div class="form-check my-4 d-flex flex-row align-items-center">
+                <input class="form-check-input shadow-none" type="checkbox" formControlName="isEnableCDN"
+                    id="flexCheckDefault">
+                <label class="form-check-label text-bolder" for="flexCheckDefault">
+                    Enable CDN
+                </label>
+            </div>
+        </div>
+
+        <div class="my-5">
+            <div class="form-heading text-bold">Finalize and create</div>
+            <div class="ps-3 my-3">
+                <div class="text-bold">Choose a unique Object Storage name</div>
+                <div class="mt-1 mb-3 text-bold para">Name must be in lowercase. It can be between 3 and 63 characters
+                    long and may contain dashes.</div>
+                <input type="text" class="form-control shadow-none mt-3 mb-1" aria-label="Username"
+                    aria-describedby="basic-addon1" formControlName="objectStorageName" style="width: 20rem;">
+                <div class="para text-bold" *ngIf="(objectStorageForm.value?.objectStorageName?.length || 2) > 2">
+                    Your Object Storage origin URL: {{'https://' + objectStorageForm.value.objectStorageName + '.' +
+                    objectStorageForm.value.dataCenter.code.toLowerCase() + '.cloudbeespaces.com'}}
+                </div>
+                <div class="my-3"
+                    *ngIf="objectStorageForm.get('objectStorageName')?.touched && objectStorageForm.get('objectStorageName')?.hasError('required')"
+                    class="text-danger text-bold">
+                    Object Storage name is required.
+                </div>
+                <div *ngIf="objectStorageForm.get('objectStorageName')?.hasError('minlength')"
+                    class="text-danger text-bold">
+                    Please expand this text to 3 characters or more, as it currently contains only 2 characters.
+                </div>
+            </div>
+        </div>
+
+        <div class="my-3">
+            <div class="form-heading">Total Monthly Cost</div>
+            <div class="bill-section my-3">
+                <div class="border-bottom p-3 d-flex flex-row justify-content-between align-items-center">
+                    <span class="text-bolder">Storage Subscription</span>
+                    <span class="text-bold para">{{storgagePrice | currency:"INR"}} /month</span>
+                </div>
+                <div class="p-3 d-flex flex-row justify-content-between align-items-center">
+                    <span class="text-bolder">Total Cost</span>
+                    <span class="text-bold d-flex flex-column justify-content-end align-items-end">
+                        <span>
+                            {{storgagePrice | currency:"INR"}} /month
+                        </span>
+                        <span class="para mt-1">
+                            {{storgagePrice / (30 * 24) | currency:"INR"}} /hour
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="my-3">
+            <button class="btn btn-success" [disabled]="(objectStorageForm.value.objectStorageName?.length || 0) <= 2" >Create an Object Storage</button>
+        </div>
+
+    </form>
+
+</section>

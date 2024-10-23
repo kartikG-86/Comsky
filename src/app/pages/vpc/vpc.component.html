@@ -1,0 +1,98 @@
+<section class="main-section">
+    <div class="d-flex flex-row justify-content-between align-items-center">
+        <div class="heading">
+            VPC Networks
+        </div>
+        <div class="learn-button pointer">
+            <span>Learn</span> <i class="bi bi-arrow-right-circle ms-2"></i>
+        </div>
+    </div>
+
+    <div class="my-3 d-flex flex-row justify-content-end">
+        <div class="mx-2">
+            <button class="w-100 btn btn-outline-primary border-2 text-bold p-2" (click)="openPeerConnectionModal()">
+                Create a Peering Connection
+            </button>
+        </div>
+        <div>
+            <button class="w-100 btn btn-primary text-bold p-2" routerLink="create-vpc">
+                Create VPC Network
+            </button>
+        </div>
+    </div>
+
+    <div class="my-3">
+        <div class="dataCenter d-flex flex-row align-items-center">
+            <div>
+                <img class="flag-icon" [src]="userInstnceDetails?.flag_icon" />
+            </div>
+            <div class="text-bolder mx-3 fs-5">{{userInstnceDetails?.dataCenterRegion}} - </div>
+            <div class="text-bold fs-6">{{userInstnceDetails?.dataCenterCode}}</div>
+        </div>
+    </div>
+
+    <div class="my-3">
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th *ngFor="let row of table_rows">{{row}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let data of userInstnceDetails?.vpcData">
+                    <tr class="border-bottom">
+                        <td class="d-flex flex-row align-items-center border-0">
+                            <img src="images/connection.png" class="connection-icon" />
+
+                            <div class="d-flex flex-column justify-content-start align-items-start ms-3">
+                                <a href="/vpc">default-{{data['instanceCode'] | lowercase}}</a>
+
+                                <span class="default my-1">DEFAULT</span>
+                            </div>
+                        </td>
+                        <td class="text-bold py-4 border-0">
+
+                            {{data["IP Range"]}} <i matTooltip="Copy" matTooltipPosition="above"
+                                [ngClass]="isIPCopy ? 'bi-check2 text-success' : 'bi-copy'"
+                                class=" ms-2  bi bold-icon pointer" (click)="copyIP(userInstnceDetails?.ipRange)"></i>
+
+                        </td>
+                        <td class="text-bold py-4 border-0">
+                            <a href="/vpc"> {{data["Connections"]}} peering connection</a>
+                        </td>
+                        <td class="text-bold py-4 border-0">{{data["Resources"]}} resource</td>
+                        <td class=" py-4">
+                            <div class="dropdown-center">
+                                <button class="text-primary" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <i class="bi bi-three-dots bold-icon fs-5 pointer"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li class="text-bold p-2 pointer" *ngFor="let option of actionBtnsInfo">
+                                        {{option.title}}</li>
+                                </ul>
+                            </div>
+
+                        </td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="my-5">
+        <div class="form-heading">Learn more about VPC Networks</div>
+        <div class="my-3 row row-cols-lg-3 row-cols-md-2 row-cols-1">
+            <div class="col strech-card" *ngFor="let doc of docs_info">
+                <div class="card pointer" [routerLink]="doc?.link">
+                    <div class="card-body">
+                        <div class="card-title text-bolder">{{doc?.title | uppercase }}</div>
+                        <div class="my-2 text-primary text-bold">{{doc?.subTitle}}</div>
+                        <div class="my-2 card-text para text-bold">{{doc?.description}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

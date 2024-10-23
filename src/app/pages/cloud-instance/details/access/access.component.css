@@ -1,0 +1,20 @@
+
+.bi{
+    -webkit-text-stroke: 0.5px;
+    font-size: 1rem
+}
+
+.btn1{
+    border: none;
+    height: 3.625rem;
+    border-radius: 5px;
+}
+
+input{
+    outline: none;
+}
+
+input:focus{
+    outline: none;
+    border: 1px solid var(--bs-border-color);
+}

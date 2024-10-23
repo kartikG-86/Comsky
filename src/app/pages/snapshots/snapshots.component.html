@@ -1,0 +1,203 @@
+<section class="main-section">
+    <ng-container *ngIf="userSnapshots.length == 0; else snapshots">
+        <div class="d-flex flex-row justify-content-between align-items-center">
+            <div class="heading">
+                Snapshot
+            </div>
+            <div class="learn-button pointer">
+                <span>Learn</span> <i class="bi bi-arrow-right-circle ms-2 bold-icon"></i>
+            </div>
+        </div>
+
+        <div class="snapshot-section my-4 p-5 d-flex flex-column justify-content-center align-items-center">
+            <div class="d-flex justify-content-center flex-column align-items-center">
+                <img src="images/snapshot.png" />
+                <div class="my-4 text-bolder fs-4 ">Looks like you don’t have any snapshots</div>
+
+                <div class="my-1 para text-bold">
+                    Snapshots enable you to manually capture and save an image of your entire Droplet or volume.
+                    Although
+                    snapshots can be taken while your Droplet is running, we recommend powering it down beforehand to
+                    ensure
+                    data consistency. Snapshot storage is billed based on the space used, at a rate of {{5.04 |
+                    currency:"INR"}} per GiB per
+                    month.
+                </div>
+                <form [formGroup]="snapshotForm" class="w-100 my-3">
+                    <div class="my-3 row row-cols-md-2 row-cols-1 w-100">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label form-heading">Select Instance to
+                                    attach to
+                                </label>
+                                <div class="dropdown my-1">
+                                    <button
+                                        class="btn dropdown-btn d-flex flex-row justify-content-between align-items-center"
+                                        type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <div class="d-flex flex-row p-2 pointer">
+                                            <ng-container *ngIf="selectedVm else default">
+                                                <div class="d-flex flex-column align-items-start">
+                                                    <div class="text-bolder">{{selectedVm?.name}}</div>
+                                                    <div class="text-bold para">{{selectedVm?.cpu}} GB /
+                                                        {{selectedVm?.disk}} GB /
+                                                        {{selectedVm?.dataCenterCode}}</div>
+                                                </div>
+                                            </ng-container>
+                                            <ng-template #default>
+                                                <span class="text-bolder">
+                                                    Select an Instance
+                                                </span>
+                                            </ng-template>
+
+                                        </div>
+                                        <i class="bi bi-caret-down-fill"></i>
+                                    </button>
+                                    <ul class="dropdown-menu p-1 px-2">
+                                        <div *ngFor="let data of vmList" class="my-2">
+                                            <div class="d-flex flex-column pointer p-2 vm" (click)="changeVM(data)">
+                                                <div class="text-bolder">{{data?.name}}</div>
+                                                <div class="text-bold para">{{data?.cpu}} GB / {{data?.disk}} GB /
+                                                    {{data?.dataCenterCode}}</div>
+                                            </div>
+                                        </div>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label form-heading">Storage
+                                    Name</label>
+                                <input type="text" class="form-control my-1 shadow-none" placeholder="Enter Volume Name"
+                                    radio-details aria-describedby="basic-addon1" formControlName="name">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-row justify-content-end">
+                        <button class="btn btn-success text-bolder p-3" [disabled]="this.snapshotForm.invalid"
+                            (click)="createSnapshot()">Take Snapshot</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-template #snapshots>
+        <div class="form-heading fs-3">Take a Snapshot</div>
+
+        <div class="my-2 para text-bold">Power-down Droplets before taking a snapshot to ensure data consistency.
+            Snapshot's cost is
+            based on space used and charged at a rate of {{5.04 |
+            currency:"INR"}}/GiB/mo.</div>
+
+        <form [formGroup]="snapshotForm" class="w-100 my-3">
+            <div class="my-3 row row-cols-md-3 row-cols-1 w-100">
+                <div class="col">
+                    <div class="mb-3">
+                        <div class="dropdown my-1">
+                            <button class="btn dropdown-btn d-flex flex-row justify-content-between align-items-center"
+                                type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <div class="d-flex flex-row p-2 pointer">
+                                    <ng-container *ngIf="selectedVm else default">
+                                        <div class="d-flex flex-column align-items-start">
+                                            <div class="text-bolder">{{selectedVm?.name}}</div>
+                                            <div class="text-bold para">{{selectedVm?.cpu}} GB /
+                                                {{selectedVm?.disk}} GB /
+                                                {{selectedVm?.dataCenterCode}}</div>
+                                        </div>
+                                    </ng-container>
+                                    <ng-template #default>
+                                        <span class="text-bolder">
+                                            Select an Instance of Volume
+                                        </span>
+                                    </ng-template>
+
+                                </div>
+                                <i class="bi bi-caret-down-fill"></i>
+                            </button>
+                            <ul class="dropdown-menu px-2">
+                                <div *ngFor="let data of vmList" class="my-2">
+                                    <div class="d-flex flex-column pointer p-1 vm" (click)="changeVM(data)">
+                                        <div class="text-bolder">{{data?.name}}</div>
+                                        <div class="text-bold para">{{data?.cpu}} GB / {{data?.disk}} GB /
+                                            {{data?.dataCenterCode}}</div>
+                                    </div>
+                                </div>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="mb-3">
+                        <input type="text" class="form-control my-1 shadow-none" placeholder="Enter Volume Name"
+                            radio-details aria-describedby="basic-addon1" formControlName="name">
+                    </div>
+                </div>
+                <div class="col">
+
+                    <button class=" mt-2 btn btn-success text-bolder p-3" [disabled]="this.snapshotForm.invalid"
+                        (click)="createSnapshot()">Take Snapshot</button>
+
+                </div>
+            </div>
+
+
+        </form>
+
+        <div class="d-flex flex-row justify-content-between align-items-center my-4">
+            <div class="heading">
+                Snapshots
+            </div>
+            <div class="learn-button pointer">
+                <span>Learn</span> <i class="bi bi-arrow-right-circle ms-2 bold-icon"></i>
+            </div>
+        </div>
+
+        <div class="border-bottom d-flex flex-row align-items-center my-3">
+            <div [ngClass]="activeSnapshotSection == section ? 'text-primary active-section' : 'para'"
+                class="me-4 text-bold pointer  py-2" (click)="changeSection(section)"
+                *ngFor="let section of snapshotSections">{{section}}</div>
+        </div>
+
+        <div>
+            <table class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th *ngFor="let row of snapshotsRows" scope="col">{{row}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of userSnapshots">
+                        <td>{{data.name}}</td>
+                        <td>{{1.93}} GB</td>
+                        <td>{{data.dataCenterCode}}</td>
+                        <td>{{this.differenceInTime(data.createdAt)}}</td>
+                        <td>
+                            <div class="dropdown-center">
+                                <button class="btn text-primary d-flex flex-row align-items-center border-none"
+                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="me-2">more</span>
+                                    <div>
+                                        <i class="bi bi-chevron-down bold-icon"></i>
+                                    </div>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li class="pointer text-center" *ngFor="let option of snapshotMoreOptions">
+                                        <div class="p-2 text-bold" [ngClass]="option?.class">
+                                            {{option?.title}}
+                                        </div>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </ng-template>
+</section>

@@ -1,0 +1,166 @@
+.checkout-section{
+    width: 100%;
+    padding: 5rem 5rem;
+    height: 85%;
+    overflow-y: auto;
+}
+
+.pay-details-section{
+  padding: 5rem 5rem;
+  height: 15%;
+  border: 2px solid var(--bs-border-color);
+}
+
+
+.bi{
+    -webkit-text-stroke: 0.5px;
+    font-size: 1rem
+}
+
+.form{
+    margin: 3rem 0;
+}
+.form-heading{
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.form-check{
+    border: 2px solid var(--bs-border-color);
+    padding: 1rem;
+}
+
+.form-check-input{
+    margin: 0rem 1rem;
+}
+
+.flag-icon{
+    width: 3rem;
+    height: 2rem;
+}
+
+  .dropdown-btn{
+    border: 1.9px solid var(--bs-border-color);
+    min-width: 20rem;
+    height: 3.5rem;
+    font-weight: 500;
+    font-size: 1.1rem;
+  }
+
+  .dropdown-btn:hover{
+    border: 1.9px solid var(--bs-border-color);
+  }
+
+  .dropdown-menu{
+    min-width: 20rem;
+  }
+
+  .dropdown-menu li{
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .dropdown-menu li:hover{
+    background-color: var(--bs-border-color);
+  }
+
+  
+
+  .os-icon{
+    width: 3rem;
+    height:3rem;
+   
+  }
+
+  .bi-info-circle{
+    color: var(--bs-purple);
+    -webkit-text-stroke: 0.5px;
+  }
+
+  .new-btn{
+    background-color: var(--bs-blue-dark);
+    color: white;
+    height: max-content;
+    border-radius: 10px;
+  }
+
+  .card{
+    border: 2px solid var(--bs-border-color);
+  }
+
+.note-section{
+  border: 2px solid var(--bs-purple);
+  border-radius: 5px;
+  border-left: 7px solid var(--bs-purple);
+}
+
+.alert-primary{
+  background-color: #d3e2fa6b !important;
+}
+
+.increase-btn , .decrease-btn{
+
+  border: 2px solid var(--bs-border-color);
+  width: 3rem;
+  height: 3rem;
+}
+
+.inc-icon{
+  font-size: 2rem;
+  -webkit-text-stroke: 0.7px;
+
+}
+
+.input-section{
+  width: calc(100% - 10rem);
+  font-size: 1.1rem;
+  border-top: 2px solid var(--bs-border-color);
+  border-bottom: 2px solid var(--bs-border-color);
+  height: 3rem;
+}
+
+.form-control{
+  outline: none !important;
+  height: 3rem;
+}
+
+.form-control:focus{
+  border-color: var(--bs-border-color) !important;
+}
+
+.eye-icon{
+  border-left: none;
+  background-color: white;
+}
+
+.eye-icon i{
+  font-size: 1.4rem;
+  -webkit-text-stroke: 0.5px;
+  cursor: pointer;
+}
+
+.add-password-input-group{
+  max-width: 30rem;
+}
+
+.add-root-password{
+  border: 2px solid var(--bs-border-color);
+}
+
+.bi-exclamation-triangle-fill{
+  font-size: 1.2rem;
+}
+  @media screen and (max-width:432px){
+    .dropdown-btn{
+        min-width: 0;
+        width: 100% !important;
+    }
+    .dropdown-menu{
+        min-width: 0;
+        width: 100% !important;
+      }
+  }
+  @media screen and (max-width:720px) {
+    .checkout-section{
+        padding: 5rem 1rem;
+    }
+  }

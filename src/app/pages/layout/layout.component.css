@@ -1,0 +1,22 @@
+.main-container{
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.main-section{
+    overflow: hidden;
+    width: 100%;
+}
+
+
+.other-sections{
+    height: calc(100% - 4.5rem);
+}
+@media screen and (max-width:992px){
+    .sidebar-section{
+        position: absolute;
+        top: 0;
+        height: 100vh;
+    }
+}

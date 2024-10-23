@@ -1,0 +1,14 @@
+.section{
+    padding:0 5rem;
+    width:100%;
+    
+}
+.box{
+    border: 1px solid #a3acc4;
+    border-radius: 4px;
+    padding: 2rem;
+}
+.img-class{
+    width: 10rem;
+    margin-bottom: 24px;
+}

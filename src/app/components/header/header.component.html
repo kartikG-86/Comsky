@@ -1,0 +1,45 @@
+<nav class="navbar px-4 d-flex flex-row align-items-center justify-content-between">
+    <ng-container *ngIf="headerUsedComponent === 'Login'; else mainHeader">
+        <div class="d-flex align-items-center">
+            <img src="images/logo.jpg" />
+            <span class="mx-3 heading">CloudBee</span>
+        </div>
+    </ng-container>
+    <ng-template #mainHeader>
+        <div class="d-flex flex-row justify-content-between align-items-center main-header">
+            <div class="input-group">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-search"></i></span>
+                <input type="text" class="form-control shadow-none" placeholder="Search by resources name or public IP" aria-label="Username"
+                    aria-describedby="basic-addon1">
+            </div>
+            <div class="d-flex flex-row align-items-center ">
+                <div class="mx-4 dropdown-center">
+                    <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Create
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li *ngFor="let createItem of createData" ><a class="dropdown-item text-bold py-3"
+                                [routerLink]="createItem.link">{{createItem.title}}</a></li>
+                    </ul>
+                </div>
+                <div class="me-4">
+                    <i class="bi bi-question-circle main-icons"></i>
+                </div>
+                <div class="me-4">
+                    <i class="bi bi-bell main-icons"></i>
+                </div>
+                <div class="personal-section d-flex flex-row align-items-center ps-3">
+                    <div class="sub-heading text-bold mx-3">My Team</div>
+                    <div class="d-flex flex-row pointer align-items-center">
+                        <div class="avatar me-2 p-2">
+                            MT
+                        </div>
+                        <i class="bi bi-chevron-down"></i>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</nav>

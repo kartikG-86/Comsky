@@ -1,0 +1,48 @@
+<section class="w-100">
+    <div class="card-section p-4">
+        <div class="d-flex flex-row justify-content-between align-items-center">
+            <span class="fs-4 text-bolder "> Destroy Instance
+            </span>
+            <app-learn-btn title="Learn"></app-learn-btn>
+        </div>
+
+        <div class="my-3 text-bold para">
+            This action is irreversible. We will permanently delete your instance, and all data associated with the
+            instance will be
+            wiped and cannot be recovered.
+        </div>
+
+        <button class="btn btn-outline-danger p-3 px-5 my-3 text-bolder" (click)="destroyInstance()">Destroy this
+            Instance</button>
+    </div>
+
+    <div class="card-section p-4 my-4">
+        <div class="d-flex flex-row justify-content-between align-items-center">
+            <span class="fs-4 text-bolder "> Rebuild Droplet
+            </span>
+            <app-learn-btn title="Learn"></app-learn-btn>
+        </div>
+
+        <div class="my-3 text-bold para">
+            This will reconstruct your instance using the specified image and its original configuration settings. The
+            rebuild
+            process will erase all data currently on this instance, so be sure to back up anything you wish to retain.
+        </div>
+        <div class="my-3 text-bold para">
+            Rebuilds are restricted to base images and snapshots that belong to the same OS family as the instance.
+        </div>
+
+        <form [formGroup]="rebuildForm">
+            <div class="w-100 d-flex flex-row align-items-center">
+                <div class="w-75 mx-3">
+                    <app-dropdown (selectedOption)="setSelectedOS($event)" [dropdownData]="formData"
+                        width="100%"></app-dropdown>
+                </div>
+                <div class="w-25">
+                    <button class="w-100 btn btn-primary p-3" [disabled]="this.rebuildForm.invalid">Rebuild</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</section>

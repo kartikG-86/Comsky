@@ -1,0 +1,105 @@
+<section class="main-section">
+
+    <ng-container *ngIf="userVolumes.length == 0 else default">
+        <div class="card-section d-flex flex-column justify-content-center align-items-center p-4">
+          <div>
+            <img src="images/volume-storage.png" class="main-icon-img" />
+          </div>
+      
+          <div class="mt-4">
+            <div class="fs-5 text-bolder text-center">
+              It seems you currently have no block storage volumes available.
+            </div>
+      
+            <div class="my-3 para text-center">
+              Volumes are reliable block storage units that can be connected to a Droplet to expand its storage capacity.
+            </div>
+      
+            <div class="my-3 text-center">
+              <button class="btn-primary custom-btn px-5" routerLink="/block-storage/checkout">Add Volume</button>
+            </div>
+          </div>
+        </div>
+
+    </ng-container>
+
+    <ng-template #default>
+        <div class="d-flex flex-row justify-content-between align-items-center">
+            <div class="fs-4 text-bolder">Volumes</div>
+            <div>
+                <button class="custom-btn px-4 text-bolder btn-secondary" routerLink="/block-storage/checkout">Add Volume</button>
+            </div>
+        </div>
+
+        <div class="my-4">
+            <table class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th *ngFor="let row of table_rows">{{row}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container>
+                        <ng-container *ngFor="let data of userVolumes">
+                            <tr class="border-bottom">
+                                <td class="d-flex flex-row align-items-center border-0 pointer"
+                                    routerLink="/cloud-instance/details/graphs">
+                                    <img src="images/volume-storage.png" class="table-img-icon" />
+            
+                                    <div class="d-flex flex-column justify-content-start align-items-start ms-3">
+                                        <a href="/volumes" class="text-bold"> {{data?.name}} </a>
+            
+                                        <span class="text-bold para mt-1">
+                                            <small> {{data?.dataCenter?.code}} /
+                                                {{data?.size}}
+                                            </small>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="text-bold py-4 border-0">
+                                    <span>
+                                        {{data?.size}}
+                                        
+                                    </span>
+                                </td>
+                                <td class="text-bold py-4 border-0">
+                                    {{data?.createdAt}}
+                                </td>
+                                <td class=" py-4">
+                                    <div class="dropdown-center">
+                                        <button class="text-primary action-btn text-bolder" type="button" data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                            More <i class="bi bi-chevron-down  ms-1   pointer"></i>
+                                        </button>
+                                        <ul class="dropdown-menu p-0">
+                                            <li class="text-bold px-3 py-2 pointer text-center" *ngFor="let option of actionBtnsInfo"
+                                                [ngClass]="option?.class">
+                                                {{option.title}}</li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
+    </ng-template>
+
+        <div class="my-4">
+            <div class="my-5">
+                <div class="form-heading">Block storage basics</div>
+                <div class="my-3 row row-cols-lg-3 row-cols-md-2 row-cols-1">
+                    <div class="col strech-card" *ngFor="let doc of docs_info">
+                        <div class="card pointer" [routerLink]="doc?.link">
+                            <div class="card-body">
+                                <div class="card-title text-bolder">{{doc?.title | uppercase }}</div>
+                                <div class="my-2 text-primary text-bold">{{doc?.subTitle}}</div>
+                                <div class="my-2 card-text para text-bold">{{doc?.description}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>

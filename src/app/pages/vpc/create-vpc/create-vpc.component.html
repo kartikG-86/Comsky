@@ -1,0 +1,125 @@
+<section class="main-section">
+
+    <button class="my-3 px-0 btn d-flex flex-row align-items-center text-bold para pointer "
+        routerLink='/networking/vpc'>
+        <i class="bi bi-arrow-left me-2"></i>
+        <span>VPC</span>
+    </button>
+
+    <div class="d-flex flex-row justify-content-between align-items-center">
+        <div class="heading">
+            Create VPC Networks
+        </div>
+        <div class="learn-button pointer">
+            <span>Learn</span> <i class="bi bi-arrow-right-circle ms-2"></i>
+        </div>
+    </div>
+    <div class="my-3 text-bold para">
+        A Virtual Private Cloud (VPC) Network enables secure communication between
+        resources such as Instances, Kubernetes clusters, database clusters, and load balancers. Resources created
+        within
+        a VPC can interact securely using their private IP addresses.
+    </div>
+
+    <form class="form" [formGroup]="newVpcForm">
+        <div class="d-flex flex-column mt-2">
+            <div class="form-heading ">Choose a datacenter region</div>
+            <div class="mt-3 text-bold para">VPC networks can only contain resources that are in the same datacenter
+                region.
+            </div>
+            <button class="btn text-primary p-0 text-start my-1 text-bolder">
+                Learn more
+                <i class="bi bi-arrow-up-right"></i>
+            </button>
+            <app-data-center-dropdown></app-data-center-dropdown>
+        </div>
+        <div class="my-3">
+            <div class="form-heading text-bold">Configure the Private IP Range </div>
+            <div class="text-bold para my-3">
+                Resources created in this VPC will receive private IP addresses, allowing them
+                to communicate securely within the designated IP range.
+            </div>
+            <div class="row row-cols-md-2 row-cols-1 g-3 my-1">
+                <div class="col" *ngFor="let data of ipRangeData">
+                    <label class="radio-card card h-100 d-flex flex-column">
+                        <input class="radio" type="radio" formControlName="ipRange" [value]="data">
+                        <span class="radio-details">
+                            <div class="form-check-label d-flex flex-column justify-content-center align-items-center"
+                                for="flexRadioDefault1">
+                                <span class="text-bold">{{data?.title}}</span>
+                                <span class="text-bold para " *ngIf="data?.description">{{data?.description}}</span>
+                                <div class="btn btn-secondary mt-2 p-1 px-2" *ngIf="data?.isRecommend">Recommended</div>
+                            </div>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="my-3 text-bold para" *ngIf="selectedIpRange?.type == 'default' else manual">An IP address range
+                for this VPC network will be automatically generated
+                during its creation.</div>
+
+            <ng-template #manual>
+                <div class="my-4 d-flex flex-row">
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label text-bolder">Address Range Prefix <span
+                                class="text-danger text-bold">*</span></label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1"
+                            formControlName="ipRangePrefix">
+                    </div>
+                    <div class="mb-3 mx-4">
+                        <label for="exampleFormControlInput1"
+                            class="form-label text-bolder d-flex flex-row align-items-center justify-content-between">
+                            <span> Network Size</span>
+                            <span class="btn text-primary p-0 text-start text-bolder">
+                                <small> About Available Addresses
+                                    <i class="bi bi-arrow-up-right"></i></small>
+                            </span>
+                        </label>
+                        <select class="form-select text-bold" aria-label="Default select example text-bold"
+                            formControlName="networkSize" style="min-width: 23rem;">
+                            <option class="text-bold" *ngFor="let address of availableAddresses">
+                                {{address?.prefix}} <span class="ms-2 "
+                                    *ngIf="address?.available">({{address?.available}} available addresses)</span>
+                            </option>
+                        </select>
+                    </div>
+
+                    <div *ngIf="selectedNetwork == 'Custom'" class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label text-bolder">Size Between 16 and 28<span
+                                class="text-danger text-bold ms-1">*</span></label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1"
+                            formControlName="customNetworkSize">
+                        <div *ngIf="newVpcForm.controls.customNetworkSize.invalid && (newVpcForm.controls.customNetworkSize.touched || newVpcForm.controls.customNetworkSize.dirty)"
+                            class="text-danger text-bold">
+                            <small> Must be a number between 16 and 28.</small>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+
+        <div class="my-5">
+            <div class="form-heading text-bold">Choose a name and description</div>
+            <div class="my-2 text-bold para">You can change the default name to something more meaningful to suit your
+                preferences.</div>
+            <div class="d-flex flex-column my-3">
+                <div class="mb-4 w-50">
+                    <label for="exampleFormControlInput1" class="form-label text-bolder">Name</label>
+                    <input type="email" class="form-control shadow-none" id="exampleFormControlInput1"
+                        formControlName="name">
+                </div>
+                <div class="mb-3 w-50">
+                    <label for="exampleFormControlTextarea1" class="form-label text-bolder">Description</label>
+                    <textarea class="form-control shadow-none" id="exampleFormControlTextarea1" rows="3"
+                        formControlName="description"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="my-4">
+            <button class="btn-primary btn" [disabled]="this.newVpcForm.invalid">Create VPC Network</button>
+        </div>
+    </form>
+
+</section>

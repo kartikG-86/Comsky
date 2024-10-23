@@ -1,0 +1,20 @@
+.main-section{
+    padding: 4rem 5rem;
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+}
+
+.backup-section{
+    border: 2px solid var(--bs-border-color);
+    min-height: 30rem;
+    border-radius: 1rem;
+}
+
+img{
+    width: 10rem;
+    height: 10rem;
+}
+.form-heading{
+    font-size: 0.5rem;
+}

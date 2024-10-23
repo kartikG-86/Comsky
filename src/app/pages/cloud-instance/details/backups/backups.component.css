@@ -1,0 +1,14 @@
+.btn{
+    min-width: 10rem;
+    min-height: 2rem;
+    transition: none;
+    transition: background-color 0.2s;
+    font-size: 0.9rem;
+    padding: 10px;
+}
+
+.img-icon{
+    width: 8rem;
+    height: 8rem;
+}
+

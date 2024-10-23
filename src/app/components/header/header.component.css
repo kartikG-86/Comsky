@@ -1,0 +1,66 @@
+img{
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.navbar{
+    height: 4.5rem;
+    background:white;
+    border-bottom: 2px solid var(--bs-border-color);
+}
+.heading{
+    font-size: 30px;
+    color: var(--bs-purple);
+  font-weight: 600;
+}
+
+.input-group{
+    max-width: 30rem;
+}
+.input-group-text{
+    border: none;
+    background-color: white;
+}
+
+.bi{
+    -webkit-text-stroke: 0.5px;
+}
+
+input{
+    border: none;
+
+}
+
+.dropdown-menu{
+  min-width: 15rem;
+  left: -5rem;
+}
+
+.main-header{
+    width: 100%;
+}
+
+.main-icons{
+    font-size: 1.3rem;
+    -webkit-text-stroke: 0.5px;
+}
+
+.personal-section{
+    border-left: 2px solid var(--bs-border-color);
+}
+
+.personal-section > div{
+    width: max-content;
+}
+
+.avatar{
+    border-radius: 50%;
+    background-color: var(--bs-purple);
+    color:var(--bs-white)
+}
+
+.bi-chevron-down{
+    font-size: 0.9rem;
+    -webkit-text-stroke: 0.8px;
+}
+

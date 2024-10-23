@@ -1,0 +1,111 @@
+<section class="main-section">
+    <div class="card-section p-4">
+        <div class="fs-4 text-bolder">Public Network</div>
+        <div class="my-3 text-bold para">
+            Anybody can access the Instance via these public addresses
+        </div>
+
+        <div class="row row-cols-3">
+            <div class="col my-3" *ngFor="let publicDetail of publicNetworkDetails">
+                <div class="text-bolder">{{publicDetail?.title}}</div>
+                <div class="para text-bold my-1 pointer">
+                    <span *ngIf="publicDetail?.value else default" (mouseenter)="showCopyIcon(publicDetail?.title)"
+                        (mouseleave)="showCopyIcon(publicDetail?.title)">
+                        {{publicDetail.value}}
+                        <span class="position-relative">
+                            <span class="ms-2 text-primary text-bold pointer"
+                                (click)="copyText(publicDetail?.value || '')"
+                                [ngClass]="isShowCopyIcon && copyIconTitle == publicDetail?.title ? 'opacity-1' : 'opacity-0'">
+                                Copy
+                            </span>
+
+                            <!-- Copied message -->
+                            <span class="text-primary ms-2 copied-text"
+                                *ngIf="isCopied && copyIconTitle === publicDetail?.title">
+                                Copied!
+                            </span>
+                        </span>
+
+                    </span>
+
+                    <span *ngIf="publicDetail?.title == 'Reserved IP'" class="text-primary">View all</span>
+
+                    <ng-template #default>
+                        <span class="text-primary">Enable Now</span>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+
+        <div class="my-3">
+            <div class="text-bolder text-uppercase">Public IPV6 Address</div>
+            <div class="my-2 para"> Activating IPv6 will necessitate changes to the Instance's network settings.
+                <span class="text-primary">Read more.</span>
+            </div>
+            <div class="my-2 para">You need to power off your Instance before enabling the public IPv6 network.
+            </div>
+        </div>
+
+        <div class="mt-4 mb-4">
+            <button class="btn-secondary custom-btn px-5">Turn Off</button>
+        </div>
+    </div>
+
+    <div class="card-section p-4 my-4">
+        <div class="fs-4 text-bolder">Private Network</div>
+        <div class="my-3 text-bold para">
+            The Instance's private address is accessible only to other members within the same VPC Network.
+        </div>
+
+        <div class="my-3 row row-cols-3">
+            <div class="col">
+                <div class="text-bolder">Private IPV4 Address</div>
+                <div class="text-bold para">{{privateNetworkDetails?.ipv4Address}}</div>
+            </div>
+            <div class="col">
+                <div class="text-bolder">VPC network</div>
+                <div class="text-bold para text-primary pointer">
+                    <span> {{privateNetworkDetails?.vpcDetails?.isDefault ? 'default' : ''}} -
+                        {{privateNetworkDetails?.vpcDetails?.code | lowercase}} <i
+                            class=" bi bi-arrow-up-right bold-icon"></i></span>
+
+                    <span class="default ms-4 para">DEFAULT</span>
+
+                </div>
+            </div>
+            <div class="col">
+                <div class="text-bolder">VPC IP range </div>
+                <div class="text-bold para">{{privateNetworkDetails?.ipRange}}</div>
+            </div>
+        </div>
+
+        <div class="mt-5 mb-3 d-flex flex-row justify-content-between align-items-center">
+            <div class="text-bold para me-3">
+                Instances cannot be transferred between VPC networks. However, you can create a snapshot of the current
+                instance and
+                then use that snapshot to create a new instance in the target VPC.
+            </div>
+
+            <div>
+                <button class="btn-secondary custom-btn text-bolder">Create Snapshot </button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card-section p-4 my-4">
+        <div class="d-flex flex-row justify-content-between align-items-center">
+            <span class="fs-4 text-bolder "> Firewalls</span>
+            <div class="learn-button pointer">
+                <span>Learn</span> <i class="bi bi-arrow-right-circle ms-2 bold-icon"></i>
+            </div>
+        </div>
+        <div class="my-2 text-bold para">
+            No Firewalls applied to this Instance.
+        </div>
+
+        <div class="my-3">
+            <button class="btn-secondary custom-btn text-bolder">Edit</button>
+        </div>
+    </div>
+</section>

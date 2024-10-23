@@ -1,0 +1,23 @@
+<section class="main-section">
+    <div routerLink="/cloud-instance/details/graphs" class="text-primary text-bold pointer">Learn how to update this
+        Droplet for new metrics.</div>
+
+    <div class="my-3">
+        <div class="text-bolder my-2">Select Period</div>
+        <select class="form-select w-25" aria-label="Default select example">
+            <option *ngFor="let period of graphPeriods">{{period}}</option>
+        </select>
+    </div>
+
+    <div class="my-3 graphs">
+        <div class="graph my-2">
+
+        </div>
+        <div class="graph my-2">
+
+        </div>
+        <div class="graph my-2">
+
+        </div>
+    </div>
+</section>

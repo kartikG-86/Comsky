@@ -1,0 +1,199 @@
+<section class="checkout-section">
+    <div class="d-flex flex-row justify-content-between align-items-center">
+        <div class="heading">
+            Create a Block Storage
+        </div>
+        <div class="learn-button pointer">
+            <span>Learn</span> <i class="bi bi-arrow-right-circle ms-2"></i>
+        </div>
+    </div>
+    <form class="form" [formGroup]="blockStorageForm">
+        <div class="my-3">
+            <div class="form-heading">Select Volume Size</div>
+            <div class="my-2 text-bold para">Storage size as per your server need</div>
+            <div class="row row-cols-xxl-4 row-cols-lg-3 row-cols-md-2 row-cols-1">
+                <ng-container>
+                    <div class="col my-3">
+                        <label class="radio-card card h-100 d-flex flex-column h-100 d-flex flex-column">
+                            <input class="radio" type="radio" [checked]="enteredSize > 0" formControlName="size">
+                            <span class="radio-details ">
+                                <div class="form-check-label d-flex flex-column justify-content-start align-items-start"
+                                    for="flexRadioDefault1">
+                                    <div class="card-body w-100">
+                                        <div class="border-bottom pb-1">
+                                            <div class="text-bold fs-5 text-center">
+                                                {{(enteredSize * 8.41)
+                                                |
+                                                currency
+                                                : "INR" :'symbol':'1.0-0'}} /month</div>
+                                            <div class="fs-6 para text-center my-2">
+                                                {{(enteredSize * 8.41) / (30 * 24)
+                                                |
+                                                currency :
+                                                "INR" :'symbol':'1.0-0'}} /hour</div>
+                                        </div>
+                                        <div class="d-flex flex-column justify-content-center align-items-center mt-2">
+                                            <div class="para mt-2 input-group">
+
+                                                <input type="text" class="form-control" placeholder="Enter Size in GB"
+                                                    aria-label="Username" aria-describedby="basic-addon1"
+                                                    formControlName="size">
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </span>
+                        </label>
+                    </div>
+                    <div class="col my-3" *ngFor="let data of volumeSizeData">
+                        <label class="radio-card card h-100 d-flex flex-column h-100 d-flex flex-column">
+                            <input class="radio" type="radio" formControlName="plan" [value]="data">
+                            <span class="radio-details ">
+                                <div class="form-check-label d-flex flex-column justify-content-start align-items-start"
+                                    for="flexRadioDefault1">
+                                    <div class="card-body w-100">
+                                        <div class="border-bottom pb-1">
+                                            <div class="text-bold fs-5 text-center">
+                                                {{data?.pricePerMonth
+                                                |
+                                                currency
+                                                : "INR" :'symbol':'1.0-0'}} /month</div>
+                                            <div class="fs-6 para text-center my-2">
+                                                {{data?.pricePerHour
+                                                |
+                                                currency :
+                                                "INR"}} /hour</div>
+                                        </div>
+                                        <div class="d-flex flex-column justify-content-center align-items-center mt-2">
+                                            <div class="para mt-2">{{data?.sizeGB}} {{data?.unit}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </span>
+                        </label>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+
+        <div class="my-3 row row-cols-md-2 row-cols-1">
+            <div class="col">
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label form-heading">Select Instance to attach to
+                    </label>
+                    <div class="dropdown my-3">
+                        <button class="btn dropdown-btn d-flex flex-row justify-content-between align-items-center"
+                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="d-flex flex-row p-2 pointer">
+                                <ng-container *ngIf="selectedVm else default">
+                                    <div class="d-flex flex-column align-items-start">
+                                        <div class="text-bolder">{{selectedVm?.name}}</div>
+                                        <div class="text-bold para">{{selectedVm?.cpu}} GB / {{selectedVm?.disk}} GB /
+                                            {{selectedVm?.dataCenterCode}}</div>
+                                    </div>
+                                </ng-container>
+                                <ng-template #default>
+                                    <span class="text-bolder">
+                                        Select an Instance
+                                    </span>
+                                </ng-template>
+
+                            </div>
+                            <i class="bi bi-caret-down-fill"></i>
+                        </button>
+                        <ul class="dropdown-menu p-1 px-2">
+                            <div *ngFor="let data of vmList" class="my-2">
+                                <div class="d-flex flex-column pointer p-2 vm" (click)="changeVM(data)">
+                                    <div class="text-bolder">{{data?.name}}</div>
+                                    <div class="text-bold para">{{data?.cpu}} GB / {{data?.disk}} GB /
+                                        {{data?.dataCenterCode}}</div>
+                                </div>
+                            </div>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label form-heading">Storage Name</label>
+                    <input type="text" class="form-control my-3 shadow-none" placeholder="Enter Volume Name"
+                        aria-label="Username" aria-describedby="basic-addon1" formControlName="storageName"
+                        style="height: 5rem;">
+                </div>
+            </div>
+        </div>
+
+        <div class="my-3">
+            <div class="form-heading">Choose configuration options</div>
+            <div class="row row-cols-md-2 row-cols-1">
+
+                <div class="col my-3" *ngFor="let option of configOptions">
+                    <label class="radio-card card h-100 d-flex flex-column h-100 d-flex flex-column">
+                        <input class="radio" type="radio" formControlName="configOption" [value]="option">
+                        <span class="radio-details ">
+                            <div class="form-check-label d-flex flex-column justify-content-start align-items-start"
+                                for="flexRadioDefault1">
+                                <div class="card-body w-100">
+                                    <div>
+                                        <div class="text-bolder fs-5 text-center">
+                                            {{option.title}}
+                                        </div>
+                                        <div class="fs-6 para text-center my-2">
+                                            {{option.description}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
+                    </label>
+
+                </div>
+                <div class="col"></div>
+            </div>
+        </div>
+
+        <div class="my-3">
+            <ng-container *ngIf="selectedOption?.type == 'automatic' else manual">
+                <div class="form-heading">Choose File System</div>
+
+                <div class="row row-cols-md-2 row-cols-1 g-3 my-1">
+                    <div class="col" *ngFor="let fileSystem of fileSystems">
+                        <label class="radio-card card h-100 d-flex flex-column h-100 d-flex flex-column">
+                            <input class="radio" type="radio" formControlName="fileSystem" [value]="fileSystem">
+                            <span class="radio-details ">
+                                <div class="form-check-label d-flex flex-column justify-content-start align-items-start"
+                                    for="flexRadioDefault1">
+                                    <div class="card-body w-100">
+                                        <div>
+                                            <div class="text-bolder fs-5 text-center">
+                                                {{fileSystem}}
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-template #manual>
+                <div class="alert alert-primary text-bolder" role="alert">
+                    Block storage volumes are created in the same region and project as the Droplet they are attached
+                    to.
+
+
+                </div>
+            </ng-template>
+        </div>
+        <div class="my-4 d-flex flex-row justify-content-end">
+            <button class="btn btn-success p-3 text-bolder fs-6" [disabled]="!btnValid" (click)="onSubmit()">Create
+                Block Storage</button>
+        </div>
+
+    </form>
+
+</section>
